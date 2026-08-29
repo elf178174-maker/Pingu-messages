@@ -164,6 +164,23 @@ fun NewMessageScreen(
                 )
             } else {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    // With nothing typed the list is the user's frequent contacts, which needs
+                    // saying: otherwise it reads as an arbitrary slice of the address book.
+                    if (state.query.isBlank() && state.suggestions.isNotEmpty()) {
+                        item(key = "suggestions-header") {
+                            Text(
+                                text = stringResource(R.string.new_message_suggestions),
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    top = 12.dp,
+                                    bottom = 4.dp,
+                                ),
+                            )
+                        }
+                    }
                     items(state.suggestions, key = { it.id }) { contact ->
                         contact.phones.forEach { phone ->
                             ContactRow(

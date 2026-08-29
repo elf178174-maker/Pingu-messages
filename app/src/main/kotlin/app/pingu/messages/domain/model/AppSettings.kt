@@ -64,7 +64,6 @@ data class AppSettings(
     val autoDownloadMmsWhileRoaming: Boolean = false,
     val groupMessagingMode: GroupMessagingMode = GroupMessagingMode.GROUP_MMS,
     val splitLongMessages: Boolean = true,
-    val sendDelaySeconds: Int = 0,
     val sendMmsReadReports: Boolean = false,
     val reactionTextFallback: Boolean = false,
     val quoteWhenReplying: Boolean = true,
@@ -86,8 +85,5 @@ data class AppSettings(
     companion object {
         /** Sentinel for "ask which SIM every time". */
         const val SUBSCRIPTION_ASK = -1
-
-        /** Longest undo window the composer offers. */
-        const val MAX_SEND_DELAY_SECONDS = 15
     }
 }

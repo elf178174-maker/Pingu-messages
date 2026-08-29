@@ -48,7 +48,8 @@ Tagged releases (`v1.0.0`, `v1.1.0`, …) also publish the APKs to the
 - Pin, mute (permanently or until a time), archive, block, mark as spam
 - Configurable swipe actions in both directions, including "off"
 - Multi-select with bulk pin, mute, archive, read/unread, block and delete
-- Custom conversation names, and custom folders for organising threads
+- Custom conversation names, and custom folders for organising threads: create one from the
+  conversation list, move a selection into it, and filter the inbox by it
 - Unread counts, draft indicators, delivery ticks, muted and pinned markers
 
 ### Messages
@@ -59,9 +60,12 @@ Tagged releases (`v1.0.0`, `v1.1.0`, …) also publish the APKs to the
 - Failed messages show why and offer a retry
 - Links, phone numbers, e-mail addresses and street addresses detected and tappable
 - Emoji-only messages drawn large, with a built-in emoji picker
+- Adjustable message text size, independent of the system font size
 
 ### Media
 - Photos, videos, audio, documents, contact cards and location links
+- GIFs through the system photo picker and the keyboard's GIF key; there is no built-in GIF
+  search, which would mean depending on somebody's proprietary search service
 - Camera and video capture through the system camera app
 - Hold-to-record voice messages with slide-to-cancel
 - Full-screen viewer with pinch zoom, swipe between items, share, save and delete

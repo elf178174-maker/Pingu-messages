@@ -40,5 +40,7 @@ fun errorMessage(context: Context, error: AppError): String = when (error) {
         },
     )
 
+    AppError.RecordingFailed -> context.getString(R.string.error_recording_failed)
+    AppError.LocationUnavailable -> context.getString(R.string.error_location_unavailable)
     is AppError.Unexpected -> context.getString(R.string.error_generic)
 }

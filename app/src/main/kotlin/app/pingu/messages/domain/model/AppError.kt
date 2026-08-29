@@ -36,6 +36,12 @@ sealed interface AppError {
     /** Sending failed with a platform result code; [resultCode] is `SmsManager.RESULT_*`. */
     data class SendFailed(val resultCode: Int) : AppError
 
+    /** The microphone could not be opened, usually because another app holds it. */
+    data object RecordingFailed : AppError
+
+    /** Location services are off, or no fix arrived before the timeout. */
+    data object LocationUnavailable : AppError
+
     /** Anything unexpected. [cause] is kept for logs but never shown verbatim. */
     data class Unexpected(val cause: Throwable? = null) : AppError
 }

@@ -90,7 +90,10 @@ fun MessageDetailsDialog(
                     )
                 }
                 if (message.errorCode != 0) {
-                    DetailRow("Error code", message.errorCode.toString())
+                    DetailRow(
+                        stringResource(R.string.details_error_code),
+                        message.errorCode.toString(),
+                    )
                 }
             }
         },

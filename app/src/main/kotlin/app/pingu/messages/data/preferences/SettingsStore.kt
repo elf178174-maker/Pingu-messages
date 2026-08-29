@@ -48,7 +48,6 @@ class SettingsStore(private val context: Context) {
         val autoDownloadMmsRoaming = booleanPreferencesKey("auto_download_mms_roaming")
         val groupMessagingMode = stringPreferencesKey("group_messaging_mode")
         val splitLongMessages = booleanPreferencesKey("split_long_messages")
-        val sendDelaySeconds = intPreferencesKey("send_delay_seconds")
         val sendMmsReadReports = booleanPreferencesKey("send_mms_read_reports")
         val reactionTextFallback = booleanPreferencesKey("reaction_text_fallback")
         val quoteWhenReplying = booleanPreferencesKey("quote_when_replying")
@@ -97,7 +96,6 @@ class SettingsStore(private val context: Context) {
                 ?: defaults.autoDownloadMmsWhileRoaming,
             groupMessagingMode = enumOrDefault(this[Keys.groupMessagingMode], defaults.groupMessagingMode),
             splitLongMessages = this[Keys.splitLongMessages] ?: defaults.splitLongMessages,
-            sendDelaySeconds = this[Keys.sendDelaySeconds] ?: defaults.sendDelaySeconds,
             sendMmsReadReports = this[Keys.sendMmsReadReports] ?: defaults.sendMmsReadReports,
             reactionTextFallback = this[Keys.reactionTextFallback] ?: defaults.reactionTextFallback,
             quoteWhenReplying = this[Keys.quoteWhenReplying] ?: defaults.quoteWhenReplying,
@@ -126,7 +124,6 @@ class SettingsStore(private val context: Context) {
         this[Keys.autoDownloadMmsRoaming] = settings.autoDownloadMmsWhileRoaming
         this[Keys.groupMessagingMode] = settings.groupMessagingMode.name
         this[Keys.splitLongMessages] = settings.splitLongMessages
-        this[Keys.sendDelaySeconds] = settings.sendDelaySeconds
         this[Keys.sendMmsReadReports] = settings.sendMmsReadReports
         this[Keys.reactionTextFallback] = settings.reactionTextFallback
         this[Keys.quoteWhenReplying] = settings.quoteWhenReplying

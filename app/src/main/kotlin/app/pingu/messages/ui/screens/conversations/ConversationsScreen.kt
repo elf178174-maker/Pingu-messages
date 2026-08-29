@@ -65,6 +65,7 @@ import app.pingu.messages.data.local.dao.FolderWithCount
 import app.pingu.messages.data.repository.ConversationFilter
 import app.pingu.messages.domain.model.Conversation
 import app.pingu.messages.ui.components.ConfirmDialog
+import app.pingu.messages.ui.components.ConfirmWithOptionDialog
 import app.pingu.messages.ui.components.ConversationListItem
 import app.pingu.messages.ui.components.DefaultSmsAppBanner
 import app.pingu.messages.ui.components.EmptyState
@@ -100,6 +101,7 @@ fun ConversationsScreen(
 
     var menuExpanded by remember { mutableStateOf(false) }
     var pendingDeletion by remember { mutableStateOf<List<Long>?>(null) }
+    var blockReportsSpam by remember { mutableStateOf(false) }
     var showMoveToFolder by remember { mutableStateOf(false) }
     var showManageFolders by remember { mutableStateOf(false) }
     var folderBeingRenamed by remember { mutableStateOf<FolderWithCount?>(null) }
@@ -315,16 +317,23 @@ fun ConversationsScreen(
             .filter { it.threadId in threadIds }
             .joinToString(", ") { it.title }
         val message = stringResource(R.string.blocked_added, names)
-        ConfirmDialog(
+        ConfirmWithOptionDialog(
             title = stringResource(R.string.block_dialog_title, names),
             body = stringResource(R.string.block_dialog_body),
+            optionLabel = stringResource(R.string.block_dialog_report),
+            optionChecked = blockReportsSpam,
+            onOptionChange = { blockReportsSpam = it },
             confirmLabel = stringResource(R.string.action_block),
             destructive = true,
             onConfirm = {
-                viewModel.block(threadIds, reportSpam = false, message = message)
+                viewModel.block(threadIds, reportSpam = blockReportsSpam, message = message)
                 pendingBlock = null
+                blockReportsSpam = false
             },
-            onDismiss = { pendingBlock = null },
+            onDismiss = {
+                pendingBlock = null
+                blockReportsSpam = false
+            },
         )
     }
 

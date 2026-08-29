@@ -245,7 +245,6 @@ class BackupManager(
         put("autoDownloadMmsWhileRoaming", current.autoDownloadMmsWhileRoaming)
         put("groupMessagingMode", current.groupMessagingMode.name)
         put("splitLongMessages", current.splitLongMessages)
-        put("sendDelaySeconds", current.sendDelaySeconds)
         put("reactionTextFallback", current.reactionTextFallback)
         put("quoteWhenReplying", current.quoteWhenReplying)
         put("spamFilterEnabled", current.spamFilterEnabled)
@@ -381,7 +380,6 @@ class BackupManager(
                     current.groupMessagingMode,
                 ),
                 splitLongMessages = item.optBoolean("splitLongMessages", current.splitLongMessages),
-                sendDelaySeconds = item.optInt("sendDelaySeconds", current.sendDelaySeconds),
                 reactionTextFallback = item.optBoolean("reactionTextFallback", current.reactionTextFallback),
                 quoteWhenReplying = item.optBoolean("quoteWhenReplying", current.quoteWhenReplying),
                 spamFilterEnabled = item.optBoolean("spamFilterEnabled", current.spamFilterEnabled),

@@ -4,6 +4,9 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,21 +38,25 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material.icons.outlined.ArrowDownward
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -80,6 +87,7 @@ import app.pingu.messages.ui.components.rememberAudioPlaybackController
 import app.pingu.messages.ui.util.IntentActions
 import app.pingu.messages.ui.util.errorMessage
 import app.pingu.messages.ui.util.rememberDownloadsSaver
+import kotlinx.coroutines.launch
 
 /**
  * The conversation screen.
@@ -106,6 +114,7 @@ fun ConversationScreen(
 
     val context = LocalContext.current
     val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     val audio = rememberAudioPlaybackController()
 
@@ -384,11 +393,8 @@ fun ConversationScreen(
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { padding ->
-        Column(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxSize(),
-        ) {
+      Box(modifier = Modifier.padding(padding).fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
             if (conversation?.isBlocked == true) {
                 BlockedConversationBanner(onUnblock = viewModel::unblock)
             } else if (conversation?.isSpam == true) {
@@ -443,6 +449,30 @@ fun ConversationScreen(
                 )
             }
         }
+
+        // Scrolled back through a long thread, getting to the latest message should not mean
+        // flicking all the way down again.
+        val scrolledUp by remember {
+            derivedStateOf { listState.firstVisibleItemIndex > SCROLL_TO_BOTTOM_THRESHOLD }
+        }
+        AnimatedVisibility(
+            visible = scrolledUp && !state.selectionMode,
+            enter = fadeIn(),
+            exit = fadeOut(),
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(end = 16.dp, bottom = 88.dp),
+        ) {
+            SmallFloatingActionButton(
+                onClick = { scope.launch { listState.animateScrollToItem(0) } },
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.ArrowDownward,
+                    contentDescription = stringResource(R.string.conversation_scroll_to_bottom),
+                )
+            }
+        }
+      }
     }
 
     // ---- Sheets and dialogs -------------------------------------------------------------------
@@ -714,3 +744,6 @@ private fun MessageSelectionBar(
 }
 
 private const val MAX_PICKED_MEDIA = 10
+
+/** How far back through a thread counts as "scrolled away from the latest message". */
+private const val SCROLL_TO_BOTTOM_THRESHOLD = 4

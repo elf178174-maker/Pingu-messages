@@ -437,7 +437,7 @@ class ConversationViewModel(
         if (_recordingElapsed.value != null) return
         val started = recorder.start()
         if (started.isFailure) {
-            _events.value = ConversationEvent.Error(AppError.Unexpected(started.exceptionOrNull()))
+            _events.value = ConversationEvent.Error(AppError.RecordingFailed)
             return
         }
         _recordingCancelArmed.value = false
@@ -507,12 +507,12 @@ class ConversationViewModel(
                 return@launch
             }
             if (!location.isLocationEnabled()) {
-                _events.value = ConversationEvent.Error(AppError.Unexpected())
+                _events.value = ConversationEvent.Error(AppError.LocationUnavailable)
                 return@launch
             }
             val fix = location.currentLocation()
             if (fix == null) {
-                _events.value = ConversationEvent.Error(AppError.Unexpected())
+                _events.value = ConversationEvent.Error(AppError.LocationUnavailable)
                 return@launch
             }
             val link = location.formatShareText(fix)

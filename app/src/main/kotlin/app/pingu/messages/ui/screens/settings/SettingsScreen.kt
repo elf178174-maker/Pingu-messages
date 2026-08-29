@@ -2,6 +2,7 @@ package app.pingu.messages.ui.screens.settings
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.biometric.BiometricManager
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -324,11 +325,24 @@ fun SettingsScreen(
                     checked = state.settings.spamFilterEnabled,
                     onCheckedChange = { value -> viewModel.update { it.copy(spamFilterEnabled = value) } },
                 )
+                // Without a biometric or a device credential there is nothing to unlock with, so
+                // the switch says why rather than turning on and doing nothing.
+                val canLock = remember(context) {
+                    BiometricManager.from(context).canAuthenticate(
+                        BiometricManager.Authenticators.BIOMETRIC_WEAK or
+                            BiometricManager.Authenticators.DEVICE_CREDENTIAL,
+                    ) == BiometricManager.BIOMETRIC_SUCCESS
+                }
                 SettingsSwitchRow(
                     title = stringResource(R.string.settings_app_lock),
-                    summary = stringResource(R.string.settings_app_lock_summary),
+                    summary = if (canLock) {
+                        stringResource(R.string.settings_app_lock_summary)
+                    } else {
+                        stringResource(R.string.settings_app_lock_unavailable)
+                    },
                     icon = Icons.Outlined.PrivacyTip,
-                    checked = state.settings.appLockEnabled,
+                    checked = state.settings.appLockEnabled && canLock,
+                    enabled = canLock,
                     onCheckedChange = { value -> viewModel.update { it.copy(appLockEnabled = value) } },
                 )
             }
