@@ -508,13 +508,14 @@ fun ConversationScreen(
     }
 
     pendingMessageDeletion?.let { ids ->
+        val deleted = pluralStringResource(R.plurals.messages_deleted, ids.size, ids.size)
         ConfirmDialog(
             title = pluralStringResource(R.plurals.delete_message_title, ids.size, ids.size),
             body = stringResource(R.string.delete_message_body),
             confirmLabel = stringResource(R.string.action_delete),
             destructive = true,
             onConfirm = {
-                viewModel.delete(ids)
+                viewModel.delete(ids, deleted)
                 pendingMessageDeletion = null
             },
             onDismiss = { pendingMessageDeletion = null },

@@ -437,11 +437,6 @@
     <string name="app_lock_subtitle">Unlock to read your messages</string>
     <string name="app_lock_unlock">Unlock</string>
 
-    <!-- Attachments -->
-    <string name="attachment_recent">Recent</string>
-    <string name="attachment_permission_needed">Allow access to show recent photos</string>
-    <string name="attachment_count">%1$d attached</string>
-
     <string name="delete_conversation_body">The messages are removed from this phone. This cannot be undone, and it does not delete them from the other person\'s phone.</string>
     <string name="delete_message_body">The message is removed from this phone only.</string>
 

@@ -73,6 +73,11 @@ class ConversationsWidgetProvider : AppWidgetProvider() {
             val update = RemoteViews(context.packageName, R.layout.widget_conversations)
             if (unread > 0) {
                 update.setTextViewText(R.id.widget_unread_badge, formatBadge(unread))
+                // The badge reads "99+" once it saturates, which tells a screen reader nothing.
+                update.setContentDescription(
+                    R.id.widget_unread_badge,
+                    context.resources.getQuantityString(R.plurals.unread_count, unread, unread),
+                )
                 update.setViewVisibility(R.id.widget_unread_badge, View.VISIBLE)
             } else {
                 update.setViewVisibility(R.id.widget_unread_badge, View.GONE)

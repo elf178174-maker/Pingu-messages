@@ -557,12 +557,19 @@ class ConversationViewModel(
         }
     }
 
-    fun delete(messageIds: List<Long>) {
+    /**
+     * Deletes messages from this phone.
+     *
+     * [confirmation] is passed in already localised because the plural depends on the count and the
+     * view model has no resources of its own.
+     */
+    fun delete(messageIds: List<Long>, confirmation: String? = null) {
         if (messageIds.isEmpty()) return
         viewModelScope.launch {
             messages.delete(messageIds)
             clearSelection()
             totalMessages.value = messages.countInThread(threadId)
+            if (confirmation != null) _events.value = ConversationEvent.Info(confirmation)
         }
     }
 

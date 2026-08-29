@@ -82,7 +82,18 @@ jobs:
 
       - name: Show the lint findings
         if: always()
-        run: cat app/build/reports/lint-results-debug.txt || true
+        run: |
+          report=app/build/reports/lint-results-debug.txt
+          if [ ! -f "$report" ]; then
+            echo "No lint report was produced."
+            exit 0
+          fi
+          echo "===== Errors ====="
+          grep -E ': (Error|Fatal): ' "$report" || echo "(none)"
+          echo "===== Findings by issue ====="
+          grep -oE '\[[A-Za-z0-9_]+\]$' "$report" | sort | uniq -c | sort -rn
+          echo "===== Totals ====="
+          tail -n 1 "$report"
 
       - name: Upload the exported database schemas
         if: always()

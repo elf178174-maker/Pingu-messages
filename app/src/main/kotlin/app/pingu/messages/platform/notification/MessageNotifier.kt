@@ -332,7 +332,7 @@ class MessageNotifier(
 
     /** The group summary keeps several conversations collapsed into one row in the shade. */
     private fun postSummary() {
-        val summary = NotificationCompat.Builder(context, NotificationChannels.MESSAGES)
+        val builder = NotificationCompat.Builder(context, NotificationChannels.MESSAGES)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(context.getString(R.string.notification_group_summary))
             .setGroup(GROUP_KEY)
@@ -340,19 +340,41 @@ class MessageNotifier(
             .setAutoCancel(true)
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
             .setContentIntent(openConversationIntent(0L))
-            .build()
-        runCatching { manager.notify(SUMMARY_NOTIFICATION_ID, summary) }
+        // On the versions that collapse the group behind the summary row, the count is the only
+        // thing the user sees, so it is worth saying how many conversations are waiting.
+        val conversations = groupedNotificationCount()
+        if (conversations > 0) {
+            builder.setContentText(
+                context.resources.getQuantityString(
+                    R.plurals.new_messages,
+                    conversations,
+                    conversations,
+                ),
+            )
+        }
+        runCatching { manager.notify(SUMMARY_NOTIFICATION_ID, builder.build()) }
     }
 
     private fun cancelSummaryIfEmpty() {
+        if (groupedNotificationCount() == 0) {
+            runCatching { manager.cancel(SUMMARY_NOTIFICATION_ID) }
+        }
+    }
+
+    /**
+     * How many conversation notifications are currently in the shade.
+     *
+     * Returns zero when the platform refuses to say, which is the safe answer: it only ever means
+     * the summary loses its subtitle or stays posted a little longer than it needed to.
+     */
+    private fun groupedNotificationCount(): Int {
         val notificationManager =
-            ContextCompat.getSystemService(context, NotificationManager::class.java) ?: return
-        val remaining = runCatching {
+            ContextCompat.getSystemService(context, NotificationManager::class.java) ?: return 0
+        return runCatching {
             notificationManager.activeNotifications.count {
                 it.id != SUMMARY_NOTIFICATION_ID && it.groupKey?.contains(GROUP_KEY) == true
             }
         }.getOrDefault(0)
-        if (remaining == 0) runCatching { manager.cancel(SUMMARY_NOTIFICATION_ID) }
     }
 
     companion object {
