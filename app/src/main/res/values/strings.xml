@@ -405,7 +405,7 @@
     <string name="settings_app_lock_unavailable">This device has no screen lock set up</string>
 
     <!-- About -->
-    <string name="about_privacy_body">Pingu Messages has no servers. Your messages stay in Android's own message store on this phone. Nothing is uploaded, there is no analytics, and there are no third-party trackers in the app.</string>
+    <string name="about_privacy_body">Pingu Messages has no servers. Your messages stay in Android\'s own message store on this phone. Nothing is uploaded, there is no analytics, and there are no third-party trackers in the app.</string>
     <string name="limitation_rcs_title">RCS chat features</string>
     <string name="limitation_rcs_body">RCS on Android runs through Google\'s Jibe infrastructure, which is not open to other apps. Pingu Messages therefore does not claim to support RCS: it implements SMS and MMS properly instead, and its transport layer is built so another protocol could be added if one ever becomes available to third-party apps.</string>
     <string name="limitation_reactions_title">Reactions</string>
