@@ -123,6 +123,7 @@
     <string name="error_mms_no_data">MMS needs mobile data. Turn mobile data on and try again.</string>
     <string name="error_mms_too_large">This message is larger than your carrier allows (%1$s). Try removing an attachment.</string>
     <string name="error_attachment_unreadable">That file could not be read.</string>
+    <string name="schedule_failed_too_large">The message was larger than your carrier allows.</string>
     <string name="error_permission_generic">A permission is missing for this action.</string>
     <string name="error_no_app_for_action">No app on this device can handle that.</string>
     <string name="error_recording_failed">Recording failed. Check that no other app is using the microphone.</string>

@@ -4,6 +4,7 @@ import android.util.Log
 import app.pingu.messages.data.repository.ScheduledMessageRepository
 import app.pingu.messages.domain.model.AppError
 import app.pingu.messages.domain.model.Outcome
+import app.pingu.messages.domain.model.ScheduledFailureReason
 import app.pingu.messages.domain.model.ScheduledMessage
 import app.pingu.messages.platform.messaging.MessageSender
 import app.pingu.messages.platform.messaging.SendRequest
@@ -64,18 +65,26 @@ class ScheduledMessageDispatcher(
         }
     }
 
-    /** Short, specific sentences; the screen shows these next to the failed entry. */
+    /**
+     * A stable key for why the send failed.
+     *
+     * The reason is written into the database and read back by the scheduled-messages screen, which
+     * turns it into a sentence in the user's language. Storing the sentence itself would freeze the
+     * language it was written in at the moment of failure.
+     */
     private fun describe(error: AppError): String = when (error) {
-        AppError.NotDefaultSmsApp -> "Pingu Messages is no longer the default SMS app"
-        AppError.NoSim -> "No SIM card"
-        AppError.NoService -> "No mobile service"
-        AppError.NoMobileData -> "Mobile data was unavailable for MMS"
-        is AppError.MessageTooLarge -> "Too large for the carrier"
-        is AppError.PermissionRequired -> "A permission was withdrawn"
-        is AppError.AttachmentUnreadable -> "An attachment could no longer be read"
-        AppError.NoHandlingApp -> "No app could handle the request"
-        is AppError.SendFailed -> "The network rejected the message"
-        is AppError.Unexpected -> "Unexpected failure"
+        AppError.NotDefaultSmsApp -> ScheduledFailureReason.NOT_DEFAULT_SMS_APP
+        AppError.NoSim -> ScheduledFailureReason.NO_SIM
+        AppError.NoService -> ScheduledFailureReason.NO_SERVICE
+        AppError.NoMobileData -> ScheduledFailureReason.NO_MOBILE_DATA
+        is AppError.MessageTooLarge -> ScheduledFailureReason.TOO_LARGE
+        is AppError.PermissionRequired -> ScheduledFailureReason.PERMISSION_REQUIRED
+        is AppError.AttachmentUnreadable -> ScheduledFailureReason.ATTACHMENT_UNREADABLE
+        AppError.NoHandlingApp -> ScheduledFailureReason.NO_HANDLING_APP
+        is AppError.SendFailed -> ScheduledFailureReason.SEND_FAILED
+        AppError.RecordingFailed -> ScheduledFailureReason.UNEXPECTED
+        AppError.LocationUnavailable -> ScheduledFailureReason.UNEXPECTED
+        is AppError.Unexpected -> ScheduledFailureReason.UNEXPECTED
     }
 
     private companion object {

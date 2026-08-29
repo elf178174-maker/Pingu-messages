@@ -35,6 +35,7 @@ import app.pingu.messages.R
 import app.pingu.messages.core.util.PhoneNumbers
 import app.pingu.messages.data.repository.ScheduledMessageRepository
 import app.pingu.messages.domain.model.ScheduledMessage
+import app.pingu.messages.domain.model.ScheduledFailureReason
 import app.pingu.messages.domain.model.ScheduledMessageState
 import app.pingu.messages.platform.scheduling.ScheduledMessageScheduler
 import app.pingu.messages.ui.components.EmptyState
@@ -159,8 +160,7 @@ fun ScheduledScreen(
                             Text(
                                 text = when (message.state) {
                                     ScheduledMessageState.FAILED ->
-                                        message.failureReason
-                                            ?: stringResource(R.string.error_send_failed_generic)
+                                        failureText(message.failureReason)
 
                                     ScheduledMessageState.CANCELLED ->
                                         stringResource(R.string.schedule_cancelled)
@@ -202,3 +202,24 @@ fun ScheduledScreen(
         }
     }
 }
+
+/**
+ * Turns a stored failure key into a sentence.
+ *
+ * Anything unrecognised - including a reason written by an older version of the app - falls back to
+ * the generic message rather than showing the raw key.
+ */
+@Composable
+private fun failureText(reason: String?): String = stringResource(
+    when (reason) {
+        ScheduledFailureReason.NOT_DEFAULT_SMS_APP -> R.string.error_not_default_app
+        ScheduledFailureReason.NO_SIM -> R.string.error_no_sim
+        ScheduledFailureReason.NO_SERVICE -> R.string.error_send_failed_no_service
+        ScheduledFailureReason.NO_MOBILE_DATA -> R.string.error_mms_no_data
+        ScheduledFailureReason.TOO_LARGE -> R.string.schedule_failed_too_large
+        ScheduledFailureReason.PERMISSION_REQUIRED -> R.string.error_permission_generic
+        ScheduledFailureReason.ATTACHMENT_UNREADABLE -> R.string.error_attachment_unreadable
+        ScheduledFailureReason.NO_HANDLING_APP -> R.string.error_no_app_for_action
+        else -> R.string.error_send_failed_generic
+    },
+)
