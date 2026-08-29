@@ -22,6 +22,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
 
+    # The secrets context cannot be read from a step's `if:`, so the one thing the steps need to
+    # know - whether a keystore was configured at all - is resolved once here, where it can.
+    env:
+      HAS_KEYSTORE: ${{ secrets.PINGU_KEYSTORE_BASE64 != '' && 'yes' || 'no' }}
+
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
@@ -50,7 +55,7 @@ jobs:
       # Android debug key, which still installs on any device; a project that sets the four
       # PINGU_KEYSTORE_* secrets gets a properly signed build with no other change.
       - name: Restore the signing keystore
-        if: ${{ secrets.PINGU_KEYSTORE_BASE64 != '' }}
+        if: env.HAS_KEYSTORE == 'yes'
         env:
           KEYSTORE_BASE64: ${{ secrets.PINGU_KEYSTORE_BASE64 }}
         run: |
@@ -88,7 +93,7 @@ jobs:
             echo
             echo "- Requires Android 8.0 (API 26) or newer."
             echo "- SMS and MMS only. RCS is not available to third-party apps; see the README."
-            if [ -z "${{ secrets.PINGU_KEYSTORE_BASE64 }}" ]; then
+            if [ "$HAS_KEYSTORE" != "yes" ]; then
               echo "- This build is signed with the standard Android debug key, so it installs"
               echo "  for testing but cannot be published to the Play Store as is."
             fi
