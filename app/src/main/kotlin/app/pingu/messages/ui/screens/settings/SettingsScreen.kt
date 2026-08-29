@@ -42,6 +42,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.pingu.messages.R
@@ -580,7 +581,7 @@ private fun swipeLabel(action: SwipeAction): String = stringResource(
 private fun retentionLabel(days: Int): String = if (days <= 0) {
     stringResource(R.string.settings_auto_delete_never)
 } else {
-    stringResource(R.string.settings_auto_delete_days, days)
+    pluralStringResource(R.plurals.settings_auto_delete_days, days, days)
 }
 
 private fun versionName(context: android.content.Context): String = runCatching {

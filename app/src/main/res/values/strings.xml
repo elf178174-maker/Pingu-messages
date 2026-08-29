@@ -278,7 +278,6 @@
     <string name="recipients_remove">Remove recipient</string>
     <string name="contact_unknown">Unknown</string>
     <string name="contact_me">You</string>
-    <string name="group_conversation_participants">%1$d people</string>
 
     <!-- Blocking -->
     <string name="block_dialog_title">Block %1$s?</string>
@@ -323,7 +322,6 @@
     <string name="conversation_blocked_banner">This number is blocked. Messages from it stay out of your inbox.</string>
     <string name="conversation_spam_banner">This conversation was moved to spam.</string>
     <string name="conversation_unblock_action">Unblock</string>
-    <string name="conversation_scheduled_banner">%1$d scheduled message(s) in this conversation</string>
 
     <!-- New message -->
     <string name="new_message_title">New message</string>
@@ -379,7 +377,6 @@
     <string name="settings_storage_attachments">Message attachments</string>
     <string name="settings_cache_cleared">Cache cleared</string>
     <string name="settings_auto_delete_never">Never</string>
-    <string name="settings_auto_delete_days">After %1$d days</string>
     <string name="settings_app_lock_unavailable">This device has no screen lock set up</string>
 
     <!-- About -->
@@ -425,6 +422,18 @@
         <item quantity="other">Delete %1$d messages?</item>
     </plurals>
 
+    <plurals name="group_conversation_participants">
+        <item quantity="one">%1$d person</item>
+        <item quantity="other">%1$d people</item>
+    </plurals>
+    <plurals name="conversation_scheduled_banner">
+        <item quantity="one">%1$d scheduled message in this conversation</item>
+        <item quantity="other">%1$d scheduled messages in this conversation</item>
+    </plurals>
+    <plurals name="settings_auto_delete_days">
+        <item quantity="one">After %1$d day</item>
+        <item quantity="other">After %1$d days</item>
+    </plurals>
     <plurals name="folder_conversations">
         <item quantity="one">%1$d conversation</item>
         <item quantity="other">%1$d conversations</item>

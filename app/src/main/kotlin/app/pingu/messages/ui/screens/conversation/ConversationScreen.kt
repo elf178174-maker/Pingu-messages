@@ -279,8 +279,9 @@ fun ConversationScreen(
                                 )
                                 if (conversation != null && conversation.isGroup) {
                                     Text(
-                                        text = stringResource(
-                                            R.string.group_conversation_participants,
+                                        text = pluralStringResource(
+                                            R.plurals.group_conversation_participants,
+                                            conversation.recipients.size,
                                             conversation.recipients.size,
                                         ),
                                         style = MaterialTheme.typography.labelSmall,
@@ -407,8 +408,9 @@ fun ConversationScreen(
 
             if (state.scheduled.isNotEmpty()) {
                 InfoBanner(
-                    text = stringResource(
-                        R.string.conversation_scheduled_banner,
+                    text = pluralStringResource(
+                        R.plurals.conversation_scheduled_banner,
+                        state.scheduled.size,
                         state.scheduled.size,
                     ),
                     icon = Icons.Outlined.Schedule,
