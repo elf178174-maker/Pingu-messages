@@ -23,7 +23,6 @@ import androidx.compose.material.icons.outlined.Mic
 import androidx.compose.material.icons.outlined.Pause
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Place
-import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -217,7 +216,7 @@ private fun AudioAttachment(
                 imageVector = if (playing && !audio.isPaused.value) {
                     Icons.Outlined.Pause
                 } else {
-                    Icons.Outlined.PlayArrow
+                    Icons.Filled.PlayArrow
                 },
                 contentDescription = null,
                 tint = onSurface,

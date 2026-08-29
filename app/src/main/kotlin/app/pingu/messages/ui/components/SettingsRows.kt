@@ -134,7 +134,7 @@ fun <T> SingleChoiceDialog(
     title: String,
     options: List<T>,
     selected: T,
-    label: (T) -> String,
+    label: @Composable (T) -> String,
     onSelect: (T) -> Unit,
     onDismiss: () -> Unit,
 ) {
