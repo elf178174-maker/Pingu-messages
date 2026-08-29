@@ -2,18 +2,12 @@
 <!--
   Android Auto Backup (Android 11 and below).
 
-  Only preferences and app-local conversation metadata are backed up. The message mirror database
-  is deliberately excluded: messages themselves live in the system telephony provider, which the
-  platform backs up separately, and restoring a stale mirror would resurrect deleted threads.
-  Caches and exported archives are excluded as well. Settings > Storage offers an explicit,
-  user-driven export for anything the platform will not carry.
+  An include list is exhaustive: anything not named here is not backed up, so the settings store is
+  all that leaves the device. The message mirror is deliberately absent - messages live in the
+  system telephony provider, which the platform backs up separately, and restoring a stale mirror
+  would resurrect deleted threads. Caches, exported archives and external storage are absent for
+  the same reason. Settings > Storage offers an explicit, user-driven export instead.
 -->
 <full-backup-content>
     <include domain="file" path="datastore/" />
-    <exclude domain="database" path="pingu-messages.db" />
-    <exclude domain="database" path="pingu-messages.db-shm" />
-    <exclude domain="database" path="pingu-messages.db-wal" />
-    <exclude domain="file" path="exports/" />
-    <exclude domain="external" path="." />
-    <exclude domain="sharedpref" path="." />
 </full-backup-content>

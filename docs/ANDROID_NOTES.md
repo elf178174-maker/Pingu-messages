@@ -203,8 +203,11 @@ camera app with `ACTION_IMAGE_CAPTURE` / `ACTION_VIDEO_CAPTURE` and a `FileProvi
 Declaring `CAMERA` would mean the intent throws until the permission is granted — worse for the
 user and pointless for the app.
 
-Media permissions are optional: they only power the in-app strip of recent photos. The system photo
-picker and document picker need no permission at all and remain available.
+**No media-read permission is declared either.** Attachments are chosen through the system photo
+picker and the document picker, both of which hand back a `content://` URI the app can already read.
+The only storage permission in the manifest is `WRITE_EXTERNAL_STORAGE`, capped at API 28, because
+Android 9 and below have no MediaStore Downloads collection to insert into; it is requested at the
+moment the user taps Save on such a device, and never on Android 10 or later.
 
 ---
 

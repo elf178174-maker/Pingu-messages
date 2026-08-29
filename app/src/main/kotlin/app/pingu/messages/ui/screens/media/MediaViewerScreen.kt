@@ -2,6 +2,7 @@ package app.pingu.messages.ui.screens.media
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -36,6 +37,7 @@ import app.pingu.messages.ui.components.ConfirmDialog
 import app.pingu.messages.ui.components.VideoPlayer
 import app.pingu.messages.ui.components.ZoomableImage
 import app.pingu.messages.ui.util.IntentActions
+import app.pingu.messages.ui.util.rememberDownloadsSaver
 
 /**
  * Full-screen media viewer.
@@ -73,6 +75,10 @@ fun MediaViewerScreen(
     }
 
     val current = state.attachments.getOrNull(pagerState.currentPage)
+
+    val saveAttachments = rememberDownloadsSaver { attachments ->
+        attachments.forEach { viewModel.save(it, savedMessage, failedMessage) }
+    }
 
     Scaffold(
         modifier = modifier,
@@ -113,7 +119,7 @@ fun MediaViewerScreen(
                             )
                         }
                         IconButton(
-                            onClick = { current?.let { viewModel.save(it, savedMessage, failedMessage) } },
+                            onClick = { current?.let { saveAttachments(listOf(it)) } },
                         ) {
                             Icon(
                                 Icons.Outlined.Download,
@@ -133,11 +139,15 @@ fun MediaViewerScreen(
             }
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
-    ) { _ ->
+    ) { padding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black),
+                .background(Color.Black)
+                // The media is deliberately full-bleed behind the translucent top bar. Consuming
+                // the inset rather than padding by it keeps that, without anything nested inside
+                // applying the same inset a second time.
+                .consumeWindowInsets(padding),
         ) {
             if (state.attachments.isEmpty()) return@Box
             HorizontalPager(

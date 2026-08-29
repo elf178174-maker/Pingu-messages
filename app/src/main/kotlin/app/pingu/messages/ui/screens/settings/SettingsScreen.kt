@@ -54,6 +54,7 @@ import app.pingu.messages.domain.model.SwipeAction
 import app.pingu.messages.domain.model.ThemeMode
 import app.pingu.messages.platform.backup.BackupManager
 import app.pingu.messages.platform.notification.NotificationChannels
+import app.pingu.messages.platform.permission.PermissionGroup
 import app.pingu.messages.ui.components.SettingsRow
 import app.pingu.messages.ui.components.SettingsSection
 import app.pingu.messages.ui.components.SettingsSwitchRow
@@ -101,6 +102,10 @@ fun SettingsScreen(
             viewModel.export(it, includeMessages = true, exportRunning, exportDone, importFailed)
         }
     }
+
+    val requestPhoneState = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions(),
+    ) { viewModel.refresh() }
 
     val openBackup = rememberLauncherForActivityResult(
         ActivityResultContracts.OpenDocument(),
@@ -213,6 +218,20 @@ fun SettingsScreen(
             }
 
             SettingsSection(stringResource(R.string.settings_section_messaging)) {
+                // A dual-SIM phone cannot list its SIMs until the phone-state permission is
+                // granted, so the offer to grant it has to come before the picker can exist.
+                if (state.canAskForSimAccess) {
+                    SettingsRow(
+                        title = stringResource(R.string.permission_phone_title),
+                        summary = stringResource(R.string.permission_phone_body),
+                        icon = Icons.Outlined.SimCard,
+                        onClick = {
+                            requestPhoneState.launch(
+                                PermissionGroup.PHONE_STATE.permissions.toTypedArray(),
+                            )
+                        },
+                    )
+                }
                 if (state.sims.size > 1) {
                     SettingsRow(
                         title = stringResource(R.string.settings_default_sim),

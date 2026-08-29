@@ -64,6 +64,7 @@ import app.pingu.messages.core.text.TextEntity
 import app.pingu.messages.core.text.TextEntityDetector
 import app.pingu.messages.domain.model.Attachment
 import app.pingu.messages.domain.model.Message
+import app.pingu.messages.platform.permission.AppPermissions
 import app.pingu.messages.platform.permission.PermissionGroup
 import app.pingu.messages.ui.components.BlockedConversationBanner
 import app.pingu.messages.ui.components.ConfirmDialog
@@ -77,6 +78,7 @@ import app.pingu.messages.ui.components.MessageBubbleState
 import app.pingu.messages.ui.components.rememberAudioPlaybackController
 import app.pingu.messages.ui.util.IntentActions
 import app.pingu.messages.ui.util.errorMessage
+import app.pingu.messages.ui.util.rememberDownloadsSaver
 
 /**
  * The conversation screen.
@@ -158,16 +160,34 @@ fun ConversationScreen(
         if (success && uri != null) viewModel.addAttachment(uri, "video/mp4")
     }
 
+    val permissionDenied = stringResource(R.string.permission_denied_permanently)
+
     val requestMicrophone = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions(),
     ) { granted ->
-        if (granted.values.any { it }) viewModel.startRecording()
+        if (granted.values.any { it }) {
+            viewModel.startRecording()
+        } else {
+            viewModel.report(permissionDenied)
+        }
     }
 
     val requestLocation = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions(),
     ) { granted ->
-        if (granted.values.any { it }) viewModel.attachLocation()
+        if (granted.values.any { it }) {
+            viewModel.attachLocation()
+        } else {
+            viewModel.report(permissionDenied)
+        }
+    }
+
+    val permissions = remember(context) { AppPermissions(context) }
+    var micRationale by remember { mutableStateOf(false) }
+    var locationRationale by remember { mutableStateOf(false) }
+
+    val saveAttachments = rememberDownloadsSaver { attachments ->
+        attachments.forEach { viewModel.saveAttachment(it, savedMessage, saveFailedMessage) }
     }
 
     // ---- Events ------------------------------------------------------------------------------
@@ -348,7 +368,11 @@ fun ConversationScreen(
                     onCancelReply = viewModel::cancelReply,
                     onSelectSim = viewModel::setSubscription,
                     onRecordStart = {
-                        requestMicrophone.launch(PermissionGroup.MICROPHONE.permissions.toTypedArray())
+                        if (permissions.isGranted(PermissionGroup.MICROPHONE)) {
+                            viewModel.startRecording()
+                        } else {
+                            micRationale = true
+                        }
                     },
                     onRecordFinish = viewModel::finishRecording,
                     onRecordCancel = viewModel::cancelRecording,
@@ -449,7 +473,11 @@ fun ConversationScreen(
                     }
 
                     AttachmentSource.LOCATION ->
-                        requestLocation.launch(PermissionGroup.LOCATION.permissions.toTypedArray())
+                        if (permissions.isPartiallyGranted(PermissionGroup.LOCATION)) {
+                            viewModel.attachLocation()
+                        } else {
+                            locationRationale = true
+                        }
                 }
             },
         )
@@ -471,9 +499,7 @@ fun ConversationScreen(
                     MessageAction.COPY -> IntentActions.copyToClipboard(context, message.body.orEmpty())
                     MessageAction.FORWARD -> onForward(listOf(message.id))
                     MessageAction.SHARE -> IntentActions.shareMessage(context, message)
-                    MessageAction.SAVE_ATTACHMENT -> message.attachments.forEach {
-                        viewModel.saveAttachment(it, savedMessage, saveFailedMessage)
-                    }
+                    MessageAction.SAVE_ATTACHMENT -> saveAttachments(message.attachments)
 
                     MessageAction.SELECT -> viewModel.toggleSelection(message.id)
                     MessageAction.DETAILS -> detailsTarget = message
@@ -504,6 +530,34 @@ fun ConversationScreen(
                 viewModel.schedule(millis)
             },
             onDismiss = { showScheduleDialog = false },
+        )
+    }
+
+    if (micRationale) {
+        ConfirmDialog(
+            title = stringResource(R.string.permission_microphone_title),
+            body = stringResource(R.string.permission_microphone_body),
+            confirmLabel = stringResource(R.string.action_continue),
+            dismissLabel = stringResource(R.string.action_not_now),
+            onConfirm = {
+                micRationale = false
+                requestMicrophone.launch(PermissionGroup.MICROPHONE.permissions.toTypedArray())
+            },
+            onDismiss = { micRationale = false },
+        )
+    }
+
+    if (locationRationale) {
+        ConfirmDialog(
+            title = stringResource(R.string.permission_location_title),
+            body = stringResource(R.string.permission_location_body),
+            confirmLabel = stringResource(R.string.action_continue),
+            dismissLabel = stringResource(R.string.action_not_now),
+            onConfirm = {
+                locationRationale = false
+                requestLocation.launch(PermissionGroup.LOCATION.permissions.toTypedArray())
+            },
+            onDismiss = { locationRationale = false },
         )
     }
 

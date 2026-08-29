@@ -47,6 +47,21 @@ class SimDataSource(private val context: Context) {
         }
     }
 
+    fun hasPhoneStateAccess(): Boolean = hasPhoneStatePermission()
+
+    /**
+     * Whether the hardware can hold more than one active subscription.
+     *
+     * This is the one dual-SIM question that can be asked without the phone-state permission, so it
+     * is what decides whether the app offers to ask for it at all. A single-SIM phone is never
+     * bothered with a permission it would gain nothing from.
+     */
+    fun supportsMultipleSims(): Boolean = try {
+        (subscriptionManager?.activeSubscriptionInfoCountMax ?: 1) > 1
+    } catch (error: Exception) {
+        false
+    }
+
     /** Every SIM the user can send from. Empty when unknown. */
     fun availableSims(): List<SimCard> {
         if (!hasPhoneStatePermission()) return emptyList()

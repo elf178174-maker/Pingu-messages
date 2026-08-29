@@ -125,7 +125,7 @@ Permissions the app declares and why:
 | `POST_NOTIFICATIONS` | Telling you a message arrived. Optional. |
 | `RECORD_AUDIO` | Only while the record button is held. |
 | `ACCESS_COARSE_LOCATION` / `ACCESS_FINE_LOCATION` | Only when you tap Location; read once, turned into a link, never stored. |
-| `READ_MEDIA_IMAGES` / `READ_MEDIA_VIDEO` | Only for the optional strip of recent photos. The system photo picker works without it. |
+| `WRITE_EXTERNAL_STORAGE` (Android 9 and below only) | Only when you tap Save on an attachment. Android 10 and later save through MediaStore and need no permission. |
 | `SCHEDULE_EXACT_ALARM`, `RECEIVE_BOOT_COMPLETED` | Sending scheduled messages at the time you chose, and re-arming them after a reboot. |
 | `VIBRATE`, `ACCESS_NETWORK_STATE`, `FOREGROUND_SERVICE` | Notification vibration, explaining MMS failures accurately, and background sync. |
 

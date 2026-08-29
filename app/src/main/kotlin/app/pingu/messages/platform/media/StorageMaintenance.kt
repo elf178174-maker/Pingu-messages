@@ -1,11 +1,14 @@
 package app.pingu.messages.platform.media
 
 import android.content.Context
+import android.media.MediaScannerConnection
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.content.ContentValues
 import android.net.Uri
 import android.util.Log
+import androidx.annotation.RequiresApi
 import app.pingu.messages.data.local.PinguDatabase
 import app.pingu.messages.data.preferences.SettingsStore
 import app.pingu.messages.domain.model.Attachment
@@ -72,27 +75,76 @@ class StorageMaintenance(
      */
     suspend fun saveToDownloads(attachment: Attachment): Result<Uri> = withContext(ioDispatcher) {
         runCatching {
-            val resolver = context.contentResolver
             val name = attachment.fileName?.takeIf { it.isNotBlank() }
                 ?: "pingu-${System.currentTimeMillis()}"
-            val values = ContentValues().apply {
-                put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-                put(MediaStore.MediaColumns.MIME_TYPE, attachment.mimeType)
-                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
-                put(MediaStore.MediaColumns.IS_PENDING, 1)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                saveThroughMediaStore(attachment, name)
+            } else {
+                saveIntoPublicDownloads(attachment, name)
             }
-            val target = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
-                ?: error("The Downloads collection rejected the file")
-
-            resolver.openInputStream(Uri.parse(attachment.uri))?.use { input ->
-                resolver.openOutputStream(target)?.use { output -> input.copyTo(output) }
-            } ?: error("The attachment could not be read")
-
-            values.clear()
-            values.put(MediaStore.MediaColumns.IS_PENDING, 0)
-            resolver.update(target, values, null, null)
-            target
         }
+    }
+
+    /** Android 10 and later: MediaStore owns the Downloads collection and no permission is needed. */
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun saveThroughMediaStore(attachment: Attachment, name: String): Uri {
+        val resolver = context.contentResolver
+        val values = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+            put(MediaStore.MediaColumns.MIME_TYPE, attachment.mimeType)
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+            put(MediaStore.MediaColumns.IS_PENDING, 1)
+        }
+        val target = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
+            ?: error("The Downloads collection rejected the file")
+
+        resolver.openInputStream(Uri.parse(attachment.uri))?.use { input ->
+            resolver.openOutputStream(target)?.use { output -> input.copyTo(output) }
+        } ?: error("The attachment could not be read")
+
+        values.clear()
+        values.put(MediaStore.MediaColumns.IS_PENDING, 0)
+        resolver.update(target, values, null, null)
+        return target
+    }
+
+    /**
+     * Android 9 and below: there is no Downloads collection to insert into, so the file is written
+     * to the public folder directly and the media scanner is told about it, which is what makes it
+     * appear in the file manager without a reboot. Needs WRITE_EXTERNAL_STORAGE, which the manifest
+     * caps at API 28 and the UI asks for only when the user taps Save on such a device.
+     */
+    @Suppress("DEPRECATION")
+    private fun saveIntoPublicDownloads(attachment: Attachment, name: String): Uri {
+        val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        if (!directory.exists() && !directory.mkdirs()) {
+            error("The Downloads folder is not available")
+        }
+        val target = availableFile(directory, name)
+        context.contentResolver.openInputStream(Uri.parse(attachment.uri))?.use { input ->
+            target.outputStream().use { output -> input.copyTo(output) }
+        } ?: error("The attachment could not be read")
+        MediaScannerConnection.scanFile(
+            context,
+            arrayOf(target.absolutePath),
+            arrayOf(attachment.mimeType),
+            null,
+        )
+        return Uri.fromFile(target)
+    }
+
+    /** "photo.jpg", then "photo (1).jpg": saving twice must not overwrite the first copy. */
+    private fun availableFile(directory: File, name: String): File {
+        val extension = name.substringAfterLast('.', "")
+        val base = if (extension.isEmpty()) name else name.substringBeforeLast('.')
+        val suffix = if (extension.isEmpty()) "" else ".$extension"
+        var candidate = File(directory, name)
+        var index = 1
+        while (candidate.exists()) {
+            candidate = File(directory, "$base ($index)$suffix")
+            index++
+        }
+        return candidate
     }
 
     /** Copies a shared or picked file into the app's cache so it survives the grant expiring. */

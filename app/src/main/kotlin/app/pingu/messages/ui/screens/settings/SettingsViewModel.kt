@@ -20,6 +20,8 @@ import kotlinx.coroutines.launch
 data class SettingsUiState(
     val settings: AppSettings = AppSettings(),
     val sims: List<SimCard> = emptyList(),
+    /** True on a dual-SIM device that has not granted the phone-state permission yet. */
+    val canAskForSimAccess: Boolean = false,
     val isDefaultSmsApp: Boolean = false,
     val storage: StorageMaintenance.Usage = StorageMaintenance.Usage(0, 0, 0, 0),
     val busyMessage: String? = null,
@@ -46,17 +48,21 @@ class SettingsViewModel(
     private val usage = MutableStateFlow(StorageMaintenance.Usage(0, 0, 0, 0))
     private val busy = MutableStateFlow<String?>(null)
     private val result = MutableStateFlow<String?>(null)
+    private val simAccess = MutableStateFlow(false)
 
     val uiState: StateFlow<SettingsUiState> = combine(
         settingsStore.settings,
         simCards,
         defaultApp,
         usage,
-        combine(busy, result) { busyMessage, resultMessage -> busyMessage to resultMessage },
+        combine(busy, result, simAccess) { busyMessage, resultMessage, askForSims ->
+            Triple(busyMessage, resultMessage, askForSims)
+        },
     ) { settings, cards, isDefault, storageUsage, messages ->
         SettingsUiState(
             settings = settings,
             sims = cards,
+            canAskForSimAccess = messages.third,
             isDefaultSmsApp = isDefault,
             storage = storageUsage,
             busyMessage = messages.first,
@@ -71,6 +77,11 @@ class SettingsViewModel(
     fun refresh() {
         viewModelScope.launch {
             simCards.value = runCatching { sims.availableSims() }.getOrDefault(emptyList())
+            // Only a dual-SIM phone gains anything from the phone-state permission, so only a
+            // dual-SIM phone is ever offered the chance to grant it.
+            simAccess.value = runCatching {
+                sims.supportsMultipleSims() && !sims.hasPhoneStateAccess()
+            }.getOrDefault(false)
             defaultApp.value = defaultSmsApp.isDefault()
             usage.value = runCatching { storage.usage() }
                 .getOrDefault(StorageMaintenance.Usage(0, 0, 0, 0))

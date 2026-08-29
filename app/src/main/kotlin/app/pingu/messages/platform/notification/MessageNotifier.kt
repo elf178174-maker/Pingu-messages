@@ -1,6 +1,8 @@
 package app.pingu.messages.platform.notification
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
@@ -8,6 +10,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.Person
@@ -134,7 +137,26 @@ class MessageNotifier(
         }
 
         postSummary()
-        runCatching { manager.notify(notificationId, builder.build()) }
+        post(notificationId, builder.build())
+    }
+
+    /**
+     * Posts a notification, or quietly does nothing.
+     *
+     * The permission is re-checked here rather than trusted from the caller: it can be revoked
+     * between the two, and a notification the user has told the system they do not want is not
+     * worth a crash. Some manufacturer builds also throw from notify() for reasons of their own.
+     */
+    @SuppressLint("MissingPermission")
+    private fun post(id: Int, notification: Notification) {
+        if (!hasPermission()) return
+        try {
+            manager.notify(id, notification)
+        } catch (error: SecurityException) {
+            Log.w(TAG, "Not allowed to post notification $id", error)
+        } catch (error: RuntimeException) {
+            Log.w(TAG, "The system rejected notification $id", error)
+        }
     }
 
     /** A notification with no content at all, for the strictest privacy setting. */
@@ -150,7 +172,7 @@ class MessageNotifier(
             .setContentIntent(openConversationIntent(conversation.threadId))
             .setDeleteIntent(dismissIntent(conversation.threadId))
         postSummary()
-        runCatching { manager.notify(notificationIdFor(conversation.threadId), builder.build()) }
+        post(notificationIdFor(conversation.threadId), builder.build())
     }
 
     /** Reports a message that could not be sent, with a way back into the conversation. */
@@ -165,7 +187,7 @@ class MessageNotifier(
             .setCategory(NotificationCompat.CATEGORY_ERROR)
             .setAutoCancel(true)
             .setContentIntent(openConversationIntent(threadId))
-        runCatching { manager.notify(failureNotificationIdFor(threadId), builder.build()) }
+        post(failureNotificationIdFor(threadId), builder.build())
     }
 
     fun cancelConversation(threadId: Long) {
@@ -352,7 +374,7 @@ class MessageNotifier(
                 ),
             )
         }
-        runCatching { manager.notify(SUMMARY_NOTIFICATION_ID, builder.build()) }
+        post(SUMMARY_NOTIFICATION_ID, builder.build())
     }
 
     private fun cancelSummaryIfEmpty() {
@@ -378,6 +400,7 @@ class MessageNotifier(
     }
 
     companion object {
+        private const val TAG = "MessageNotifier"
         private const val GROUP_KEY = "app.pingu.messages.CONVERSATIONS"
         private const val SUMMARY_NOTIFICATION_ID = 1
         private const val MAX_MESSAGES_IN_STYLE = 8

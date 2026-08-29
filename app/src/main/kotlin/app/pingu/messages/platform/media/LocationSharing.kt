@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.util.Log
 import androidx.core.content.ContextCompat
 import java.util.Locale
@@ -36,8 +37,20 @@ class LocationSharing(private val context: Context) {
             ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) ==
             PackageManager.PERMISSION_GRANTED
 
+    /**
+     * Whether location services are switched on at all.
+     *
+     * `isLocationEnabled` only exists from Android 9, so older versions are asked the older
+     * question: is either provider the app can actually use turned on.
+     */
     fun isLocationEnabled(): Boolean = try {
-        locationManager?.isLocationEnabled == true
+        val manager = locationManager
+        when {
+            manager == null -> false
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> manager.isLocationEnabled
+            else -> manager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        }
     } catch (error: Exception) {
         false
     }

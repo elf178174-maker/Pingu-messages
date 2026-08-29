@@ -33,15 +33,13 @@
     <!-- Voice messages. Requested the first time the user holds the microphone button. -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <!-- Optional in-app recent-media strip in the attachment sheet. The system photo picker and
-         the document picker are always available and need no permission at all. -->
+    <!-- Saving an attachment into the public Downloads folder. Android 10 and later do this
+         through MediaStore and need no permission, so the request only ever appears on 9 and
+         below, and only when the user taps Save. Picking media needs nothing at all: the app uses
+         the system photo picker and the document picker. -->
     <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <!-- Location sharing. Requested only when the user taps "Location" in the attachment sheet. -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

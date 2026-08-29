@@ -51,14 +51,16 @@ enum class PermissionGroup(val permissions: List<String>) {
     PHONE_STATE(listOf(Manifest.permission.READ_PHONE_STATE)),
 
     /**
-     * Only needed for the in-app strip of recent photos. The system photo picker and the document
-     * picker work without any of these, and remain available if the user says no.
+     * Writing an attachment into the public Downloads folder.
+     *
+     * Android 10 made this a MediaStore operation that needs no permission at all, so on those
+     * versions the group is empty and no request is ever made.
      */
-    MEDIA(
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            listOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO)
+    SAVE_TO_DOWNLOADS(
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         } else {
-            listOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+            emptyList()
         },
     ),
 }

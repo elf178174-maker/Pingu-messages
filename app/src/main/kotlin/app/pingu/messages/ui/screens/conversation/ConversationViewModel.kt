@@ -676,6 +676,11 @@ class ConversationViewModel(
         }
     }
 
+    /** Surfaces a message the screen produced, so everything reaches the user through one snackbar. */
+    fun report(message: String) {
+        _events.value = ConversationEvent.Info(message)
+    }
+
     fun consumeEvent() {
         _events.value = null
     }
