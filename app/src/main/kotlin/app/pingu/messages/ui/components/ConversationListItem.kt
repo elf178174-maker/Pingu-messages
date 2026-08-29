@@ -100,25 +100,7 @@ fun ConversationListItem(
             } else {
                 ContactAvatar(conversation.recipients.firstOrNull())
             }
-            AnimatedVisibility(
-                visible = selected,
-                enter = scaleIn() + fadeIn(),
-                exit = scaleOut() + fadeOut(),
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(44.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primary),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.CheckCircle,
-                        contentDescription = stringResource(R.string.cd_selected),
-                        tint = MaterialTheme.colorScheme.onPrimary,
-                    )
-                }
-            }
+            SelectionBadge(selected = selected)
         }
 
         Column(
@@ -371,6 +353,35 @@ private fun SwipeBackground(
             Icon(imageVector = icon, contentDescription = null, tint = onContainer)
             Box(Modifier.width(10.dp))
             Text(text = label, style = MaterialTheme.typography.labelLarge, color = onContainer)
+        }
+    }
+}
+
+/**
+ * The check mark drawn over an avatar in multi-select.
+ *
+ * It lives in its own composable so `AnimatedVisibility` resolves to the plain overload: called
+ * inline it would pick up the enclosing `RowScope` and fail to resolve.
+ */
+@Composable
+private fun SelectionBadge(selected: Boolean) {
+    AnimatedVisibility(
+        visible = selected,
+        enter = scaleIn() + fadeIn(),
+        exit = scaleOut() + fadeOut(),
+    ) {
+        Box(
+            modifier = Modifier
+                .size(44.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.primary),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                imageVector = Icons.Filled.CheckCircle,
+                contentDescription = stringResource(R.string.cd_selected),
+                tint = MaterialTheme.colorScheme.onPrimary,
+            )
         }
     }
 }

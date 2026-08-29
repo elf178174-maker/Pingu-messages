@@ -92,19 +92,13 @@ class ThreadsDataSource(private val context: Context) {
     }
 
     /** Maps canonical address ids to the addresses themselves. */
-    fun canonicalAddresses(): Map<Long, String> {
-        val result = HashMap<Long, String>()
-        resolver.queryAll(
-            uri = CANONICAL_ADDRESSES,
-            mapper = { cursor ->
-                val id = cursor.longOr("_id")
-                val address = cursor.stringOrNull(COLUMN_ADDRESS)
-                if (address != null) result[id] = address
-                null
-            },
-        )
-        return result
-    }
+    fun canonicalAddresses(): Map<Long, String> = resolver.queryAll(
+        uri = CANONICAL_ADDRESSES,
+        mapper = { cursor ->
+            val address = cursor.stringOrNull(COLUMN_ADDRESS)
+            if (address == null) null else cursor.longOr("_id") to address
+        },
+    ).toMap()
 
     /**
      * The thread id for a set of recipients, creating it when it does not exist yet.

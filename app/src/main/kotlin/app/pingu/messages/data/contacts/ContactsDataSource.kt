@@ -47,8 +47,7 @@ class ContactsDataSource(private val context: Context) {
      */
     fun loadIndex(): Map<String, ContactSummary> {
         if (!hasPermission()) return emptyMap()
-        val index = HashMap<String, ContactSummary>()
-        resolver.queryAll(
+        val entries = resolver.queryAll(
             uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
             projection = arrayOf(
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
@@ -66,22 +65,21 @@ class ContactsDataSource(private val context: Context) {
                 if (number.isNullOrBlank() || name.isNullOrBlank()) return@queryAll null
                 val key = PhoneNumbers.matchKey(number)
                 if (key.isEmpty()) return@queryAll null
-                index.putIfAbsent(
-                    key,
-                    ContactSummary(
-                        contactId = cursor.longOr(ContactsContract.CommonDataKinds.Phone.CONTACT_ID),
-                        lookupKey = cursor.stringOrNull(
-                            ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY,
-                        ).orEmpty(),
-                        displayName = name,
-                        photoUri = cursor.stringOrNull(
-                            ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI,
-                        ),
+                key to ContactSummary(
+                    contactId = cursor.longOr(ContactsContract.CommonDataKinds.Phone.CONTACT_ID),
+                    lookupKey = cursor.stringOrNull(
+                        ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY,
+                    ).orEmpty(),
+                    displayName = name,
+                    photoUri = cursor.stringOrNull(
+                        ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI,
                     ),
                 )
-                null
             },
         )
+        // The first row for a number wins, which is the contact the provider considers primary.
+        val index = LinkedHashMap<String, ContactSummary>(entries.size)
+        entries.forEach { (key, summary) -> index.putIfAbsent(key, summary) }
         return index
     }
 
