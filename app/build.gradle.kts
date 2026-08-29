@@ -132,10 +132,9 @@ android {
         checkReleaseBuilds = false
         htmlReport = true
         xmlReport = true
-        // Also print the findings to the console: on CI the HTML report is buried in an artifact,
-        // and a warning nobody reads is a warning that never gets fixed.
+        // The text report is what CI prints into the build log: an HTML report buried in an
+        // artifact is a report nobody reads.
         textReport = true
-        textOutput = file("stdout")
     }
 
     sourceSets {

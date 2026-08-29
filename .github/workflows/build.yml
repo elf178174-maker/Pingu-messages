@@ -80,6 +80,10 @@ jobs:
         run: ./gradlew lintDebug --console=plain
         continue-on-error: true
 
+      - name: Show the lint findings
+        if: always()
+        run: cat app/build/reports/lint-results-debug.txt || true
+
       - name: Upload the exported database schemas
         if: always()
         uses: actions/upload-artifact@v4
