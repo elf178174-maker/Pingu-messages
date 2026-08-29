@@ -2,6 +2,7 @@ package app.pingu.messages.ui.screens.conversations
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.pingu.messages.core.util.Avatars
 import app.pingu.messages.data.local.dao.FolderWithCount
 import app.pingu.messages.data.preferences.SettingsStore
 import app.pingu.messages.data.repository.BlockedNumberRepository
@@ -294,13 +295,53 @@ class ConversationsViewModel(
         }
     }
 
-    fun moveToFolder(threadIds: List<Long> = selectedIds(), targetFolderId: Long?) {
+    fun moveToFolder(
+        threadIds: List<Long> = selectedIds(),
+        targetFolderId: Long?,
+        message: String? = null,
+    ) {
         if (threadIds.isEmpty()) return
         viewModelScope.launch {
             conversations.setFolder(threadIds, targetFolderId)
             clearSelection()
+            if (message != null) _events.value = ConversationsEvent.Info(message)
         }
     }
+
+    /**
+     * Creates a folder and, when threads are selected, moves them straight into it: creating a
+     * folder from the move dialog and then having to pick it again would be a pointless second step.
+     */
+    fun createFolder(name: String, moveSelection: List<Long> = emptyList(), message: String? = null) {
+        val trimmed = name.trim()
+        if (trimmed.isEmpty()) return
+        viewModelScope.launch {
+            val id = folders.create(trimmed, nextFolderColorSlot())
+            if (moveSelection.isNotEmpty()) {
+                conversations.setFolder(moveSelection, id)
+                clearSelection()
+            }
+            if (message != null) _events.value = ConversationsEvent.Info(message)
+        }
+    }
+
+    fun renameFolder(folder: FolderWithCount, name: String) {
+        val trimmed = name.trim()
+        if (trimmed.isEmpty()) return
+        viewModelScope.launch { folders.rename(folder, trimmed) }
+    }
+
+    /** Deletes a folder. The conversations in it return to the inbox; nothing is deleted with it. */
+    fun deleteFolder(folder: FolderWithCount) {
+        viewModelScope.launch {
+            if (folderId.value == folder.id) folderId.value = null
+            folders.delete(folder.id)
+        }
+    }
+
+    /** Spreads new folders across the accent palette instead of making them all the same colour. */
+    private fun nextFolderColorSlot(): Int =
+        uiState.value.folders.size % Avatars.COLOR_SLOTS
 
     fun applySwipe(conversation: Conversation, action: SwipeAction, labels: SwipeLabels) {
         when (action) {

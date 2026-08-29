@@ -106,7 +106,6 @@
     <string name="message_action_details">Details</string>
     <string name="message_action_react">React</string>
     <string name="message_action_resend">Send again</string>
-    <string name="message_action_edit">Edit</string>
     <string name="message_copied">Copied to clipboard</string>
     <string name="message_saved_to_downloads">Saved to Downloads</string>
 
@@ -186,8 +185,12 @@
     <string name="settings_dynamic_color_summary">Match the colours of your wallpaper</string>
     <string name="settings_accent">Accent colour</string>
     <string name="settings_bubble_style">Message bubbles</string>
-    <string name="settings_bubble_tails">Bubble tails</string>
     <string name="settings_font_scale">Message text size</string>
+    <string name="settings_font_scale_small">Small</string>
+    <string name="settings_font_scale_default">Default</string>
+    <string name="settings_font_scale_large">Large</string>
+    <string name="settings_font_scale_larger">Larger</string>
+    <string name="settings_font_scale_largest">Largest</string>
     <string name="settings_pure_black">Pure black in dark mode</string>
     <string name="settings_pure_black_summary">Saves power on OLED screens</string>
 
@@ -215,6 +218,7 @@
     <string name="settings_split_long_sms">Split long messages instead of sending MMS</string>
     <string name="settings_send_delay">Undo send window</string>
     <string name="settings_read_receipts_mms">Send MMS read reports</string>
+    <string name="settings_read_receipts_mms_summary">Tells the sender you opened their MMS. SMS has no read receipt to send.</string>
     <string name="settings_reaction_fallback">Send reactions as text</string>
     <string name="settings_reaction_fallback_summary">SMS has no reactions. When on, a reaction is also sent as a short text so the other person sees it.</string>
     <string name="settings_quote_replies">Include a quote when replying</string>
@@ -319,7 +323,6 @@
     <string name="details_parts">Parts</string>
 
     <!-- Content descriptions -->
-    <string name="cd_avatar">Contact photo</string>
     <string name="cd_unread">Unread</string>
     <string name="cd_attachment_image">Image attachment</string>
     <string name="cd_attachment_video">Video attachment</string>
@@ -343,8 +346,6 @@
     <string name="conversation_menu_notifications">Notifications</string>
     <string name="conversation_scroll_to_bottom">Scroll to the latest message</string>
     <string name="conversation_new_messages">New</string>
-    <string name="conversation_load_older">Load older messages</string>
-    <string name="conversation_typing_placeholder">Message</string>
     <string name="conversation_blocked_banner">This number is blocked. Messages from it stay out of your inbox.</string>
     <string name="conversation_spam_banner">This conversation was moved to spam.</string>
     <string name="conversation_unblock_action">Unblock</string>
@@ -389,6 +390,16 @@
     <string name="settings_swipe_left">Swipe left</string>
     <string name="settings_swipe_none">Nothing</string>
     <string name="settings_folders">Folders</string>
+    <string name="folder_move_title">Move to folder</string>
+    <string name="folder_none">No folder</string>
+    <string name="folder_new">New folder</string>
+    <string name="folder_name_hint">Folder name</string>
+    <string name="folder_rename">Rename folder</string>
+    <string name="folder_delete_title">Delete this folder?</string>
+    <string name="folder_delete_body">The conversations in it go back to the inbox. No messages are deleted.</string>
+    <string name="folder_empty">No folders yet. Create one to group conversations.</string>
+    <string name="folder_created">Folder created</string>
+    <string name="folder_moved">Moved</string>
     <string name="settings_reset">Reset to defaults</string>
     <string name="settings_export_running">Writing backup…</string>
     <string name="settings_export_done">Backup saved (%1$s)</string>
@@ -447,6 +458,10 @@
         <item quantity="other">Delete %1$d messages?</item>
     </plurals>
 
+    <plurals name="folder_conversations">
+        <item quantity="one">%1$d conversation</item>
+        <item quantity="other">%1$d conversations</item>
+    </plurals>
     <plurals name="selected_count">
         <item quantity="one">%1$d selected</item>
         <item quantity="other">%1$d selected</item>

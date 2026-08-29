@@ -116,6 +116,7 @@ fun MessageList(
                     highlightRanges = highlightRanges,
                 ),
                 bubbleShape = state.settings.bubbleShape,
+                textScale = state.settings.messageTextScale,
                 audio = audio,
                 onClick = { onMessageClick(message) },
                 onLongClick = { onMessageLongClick(message) },

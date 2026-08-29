@@ -61,6 +61,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.pingu.messages.R
+import app.pingu.messages.data.local.dao.FolderWithCount
 import app.pingu.messages.data.repository.ConversationFilter
 import app.pingu.messages.domain.model.Conversation
 import app.pingu.messages.ui.components.ConfirmDialog
@@ -99,6 +100,11 @@ fun ConversationsScreen(
 
     var menuExpanded by remember { mutableStateOf(false) }
     var pendingDeletion by remember { mutableStateOf<List<Long>?>(null) }
+    var showMoveToFolder by remember { mutableStateOf(false) }
+    var showManageFolders by remember { mutableStateOf(false) }
+    var folderBeingRenamed by remember { mutableStateOf<FolderWithCount?>(null) }
+    var folderBeingDeleted by remember { mutableStateOf<FolderWithCount?>(null) }
+    var creatingFolder by remember { mutableStateOf(false) }
     var pendingBlock by remember { mutableStateOf<List<Long>?>(null) }
 
     val undoLabel = stringResource(R.string.action_undo)
@@ -151,6 +157,7 @@ fun ConversationsScreen(
                     onDelete = { pendingDeletion = state.selectedThreadIds.toList() },
                     onBlock = { pendingBlock = state.selectedThreadIds.toList() },
                     onSelectAll = viewModel::selectAll,
+                    onMoveToFolder = { showMoveToFolder = true },
                 )
             } else {
                 TopAppBar(
@@ -181,6 +188,14 @@ fun ConversationsScreen(
                                 onClick = {
                                     menuExpanded = false
                                     onBlocked()
+                                },
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.settings_folders)) },
+                                leadingIcon = { Icon(Icons.AutoMirrored.Outlined.Label, null) },
+                                onClick = {
+                                    menuExpanded = false
+                                    showManageFolders = true
                                 },
                             )
                             DropdownMenuItem(
@@ -313,6 +328,83 @@ fun ConversationsScreen(
         )
     }
 
+    if (showMoveToFolder) {
+        val moved = stringResource(R.string.folder_moved)
+        val targets = state.selectedThreadIds.toList()
+        MoveToFolderDialog(
+            folders = state.folders,
+            onMove = { folderId ->
+                showMoveToFolder = false
+                viewModel.moveToFolder(targets, folderId, moved)
+            },
+            onCreateFolder = {
+                showMoveToFolder = false
+                creatingFolder = true
+            },
+            onDismiss = { showMoveToFolder = false },
+        )
+    }
+
+    if (showManageFolders) {
+        ManageFoldersDialog(
+            folders = state.folders,
+            onCreateFolder = {
+                showManageFolders = false
+                creatingFolder = true
+            },
+            onRenameFolder = {
+                showManageFolders = false
+                folderBeingRenamed = it
+            },
+            onDeleteFolder = {
+                showManageFolders = false
+                folderBeingDeleted = it
+            },
+            onDismiss = { showManageFolders = false },
+        )
+    }
+
+    if (creatingFolder) {
+        // Whatever was selected when the dialog opened moves into the new folder straight away.
+        val created = stringResource(R.string.folder_created)
+        val targets = state.selectedThreadIds.toList()
+        FolderNameDialog(
+            title = stringResource(R.string.folder_new),
+            initialName = "",
+            onConfirm = { name ->
+                creatingFolder = false
+                viewModel.createFolder(name, targets, created)
+            },
+            onDismiss = { creatingFolder = false },
+        )
+    }
+
+    folderBeingRenamed?.let { folder ->
+        FolderNameDialog(
+            title = stringResource(R.string.folder_rename),
+            initialName = folder.name,
+            onConfirm = { name ->
+                folderBeingRenamed = null
+                viewModel.renameFolder(folder, name)
+            },
+            onDismiss = { folderBeingRenamed = null },
+        )
+    }
+
+    folderBeingDeleted?.let { folder ->
+        ConfirmDialog(
+            title = stringResource(R.string.folder_delete_title),
+            body = stringResource(R.string.folder_delete_body),
+            confirmLabel = stringResource(R.string.action_delete),
+            destructive = true,
+            onConfirm = {
+                viewModel.deleteFolder(folder)
+                folderBeingDeleted = null
+            },
+            onDismiss = { folderBeingDeleted = null },
+        )
+    }
+
     LaunchedEffect(state.filter) {
         scope.launch { listState.scrollToItem(0) }
     }
@@ -419,6 +511,7 @@ private fun SelectionTopBar(
     onDelete: () -> Unit,
     onBlock: () -> Unit,
     onSelectAll: () -> Unit,
+    onMoveToFolder: () -> Unit,
 ) {
     var overflow by remember { mutableStateOf(false) }
     TopAppBar(
@@ -470,6 +563,14 @@ private fun SelectionTopBar(
                     onClick = {
                         overflow = false
                         onBlock()
+                    },
+                )
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.folder_move_title)) },
+                    leadingIcon = { Icon(Icons.AutoMirrored.Outlined.Label, null) },
+                    onClick = {
+                        overflow = false
+                        onMoveToFolder()
                     },
                 )
                 DropdownMenuItem(

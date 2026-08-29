@@ -68,6 +68,7 @@ import app.pingu.messages.platform.permission.AppPermissions
 import app.pingu.messages.platform.permission.PermissionGroup
 import app.pingu.messages.ui.components.BlockedConversationBanner
 import app.pingu.messages.ui.components.ConfirmDialog
+import app.pingu.messages.ui.components.PermissionRationaleDialog
 import app.pingu.messages.ui.components.ContactAvatar
 import app.pingu.messages.ui.components.EmojiPicker
 import app.pingu.messages.ui.components.EmptyState
@@ -534,12 +535,10 @@ fun ConversationScreen(
     }
 
     if (micRationale) {
-        ConfirmDialog(
+        PermissionRationaleDialog(
             title = stringResource(R.string.permission_microphone_title),
             body = stringResource(R.string.permission_microphone_body),
-            confirmLabel = stringResource(R.string.action_continue),
-            dismissLabel = stringResource(R.string.action_not_now),
-            onConfirm = {
+            onContinue = {
                 micRationale = false
                 requestMicrophone.launch(PermissionGroup.MICROPHONE.permissions.toTypedArray())
             },
@@ -548,12 +547,10 @@ fun ConversationScreen(
     }
 
     if (locationRationale) {
-        ConfirmDialog(
+        PermissionRationaleDialog(
             title = stringResource(R.string.permission_location_title),
             body = stringResource(R.string.permission_location_body),
-            confirmLabel = stringResource(R.string.action_continue),
-            dismissLabel = stringResource(R.string.action_not_now),
-            onConfirm = {
+            onContinue = {
                 locationRationale = false
                 requestLocation.launch(PermissionGroup.LOCATION.permissions.toTypedArray())
             },

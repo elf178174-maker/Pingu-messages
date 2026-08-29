@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Brand seed. The Material 3 palettes in ui/theme/Color.kt are generated from this hue. -->
-    <color name="brand_primary">#0D6E70</color>
-
+    <!-- The brand hue. The Material 3 palettes in ui/theme/Color.kt are generated from it. -->
     <color name="ic_launcher_background">#0D6E70</color>
 
     <color name="window_background">#FBF9F9</color>

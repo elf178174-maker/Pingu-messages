@@ -31,6 +31,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.pingu.messages.R
@@ -73,6 +74,7 @@ data class MessageBubbleState(
 fun MessageBubble(
     state: MessageBubbleState,
     bubbleShape: BubbleShape,
+    textScale: Float,
     audio: AudioPlaybackController,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
@@ -207,13 +209,13 @@ fun MessageBubble(
                             if (largeEmoji) {
                                 Text(
                                     text = bodyText,
-                                    fontSize = LARGE_EMOJI_SIZE,
+                                    fontSize = LARGE_EMOJI_SIZE * textScale,
                                     color = onContainer,
                                 )
                             } else {
                                 LinkedMessageText(
                                     text = bodyText,
-                                    style = MaterialTheme.typography.bodyLarge,
+                                    style = scaledBodyStyle(textScale),
                                     color = onContainer,
                                     linkColor = onContainer,
                                     highlightRanges = state.highlightRanges,
@@ -408,3 +410,15 @@ private val AVATAR_GUTTER = 46.dp
 private val LARGE_EMOJI_SIZE = 44.sp
 private const val SELECTION_ALPHA = 0.45f
 private const val MAX_REACTION_CHIPS = 3
+
+/**
+ * The message body style at the user's chosen size.
+ *
+ * Only the message text scales: timestamps, sender names and status lines stay at the system size,
+ * so raising it enlarges what is being read rather than everything at once.
+ */
+@Composable
+private fun scaledBodyStyle(textScale: Float): TextStyle {
+    val base = MaterialTheme.typography.bodyLarge
+    return if (textScale == 1f) base else base.copy(fontSize = base.fontSize * textScale)
+}

@@ -62,7 +62,9 @@ import app.pingu.messages.ui.components.SingleChoiceDialog
 import app.pingu.messages.ui.util.IntentActions
 
 /** Which single-choice dialog is open, if any. */
-private enum class SettingsDialog { THEME, ACCENT, BUBBLE, PRIVACY, SIM, GROUP, SWIPE_RIGHT, SWIPE_LEFT, RETENTION }
+private enum class SettingsDialog {
+    THEME, ACCENT, BUBBLE, TEXT_SIZE, PRIVACY, SIM, GROUP, SWIPE_RIGHT, SWIPE_LEFT, RETENTION
+}
 
 /**
  * The settings screen.
@@ -187,6 +189,11 @@ fun SettingsScreen(
                     summary = bubbleLabel(state.settings.bubbleShape),
                     onClick = { dialog = SettingsDialog.BUBBLE },
                 )
+                SettingsRow(
+                    title = stringResource(R.string.settings_font_scale),
+                    summary = textScaleLabel(state.settings.messageTextScale),
+                    onClick = { dialog = SettingsDialog.TEXT_SIZE },
+                )
             }
 
             SettingsSection(stringResource(R.string.settings_section_notifications)) {
@@ -266,6 +273,12 @@ fun SettingsScreen(
                     title = stringResource(R.string.settings_group_mms),
                     summary = groupLabel(state.settings.groupMessagingMode),
                     onClick = { dialog = SettingsDialog.GROUP },
+                )
+                SettingsSwitchRow(
+                    title = stringResource(R.string.settings_read_receipts_mms),
+                    summary = stringResource(R.string.settings_read_receipts_mms_summary),
+                    checked = state.settings.sendMmsReadReports,
+                    onCheckedChange = { value -> viewModel.update { it.copy(sendMmsReadReports = value) } },
                 )
                 SettingsSwitchRow(
                     title = stringResource(R.string.settings_split_long_sms),
@@ -412,6 +425,15 @@ private fun SettingsDialogs(
             onDismiss = onDismiss,
         )
 
+        SettingsDialog.TEXT_SIZE -> SingleChoiceDialog(
+            title = stringResource(R.string.settings_font_scale),
+            options = TEXT_SCALE_OPTIONS,
+            selected = state.settings.messageTextScale,
+            label = { textScaleLabel(it) },
+            onSelect = { value -> onUpdate { it.copy(messageTextScale = value) } },
+            onDismiss = onDismiss,
+        )
+
         SettingsDialog.PRIVACY -> SingleChoiceDialog(
             title = stringResource(R.string.settings_notification_privacy),
             options = NotificationPrivacy.entries,
@@ -472,6 +494,20 @@ private fun SettingsDialogs(
         null -> Unit
     }
 }
+
+/** Message text sizes, as multipliers of the theme's body size. */
+private val TEXT_SCALE_OPTIONS = listOf(0.85f, 1.0f, 1.15f, 1.3f, 1.5f)
+
+@Composable
+private fun textScaleLabel(scale: Float): String = stringResource(
+    when {
+        scale <= 0.85f -> R.string.settings_font_scale_small
+        scale < 1.1f -> R.string.settings_font_scale_default
+        scale < 1.25f -> R.string.settings_font_scale_large
+        scale < 1.4f -> R.string.settings_font_scale_larger
+        else -> R.string.settings_font_scale_largest
+    },
+)
 
 @Composable
 private fun themeLabel(mode: ThemeMode): String = stringResource(

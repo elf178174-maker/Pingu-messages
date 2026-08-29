@@ -76,6 +76,7 @@ fun ConversationListItem(
     val unread = conversation.hasUnread
     val timestamp = rememberListTimestamp(conversation.lastMessageTimestamp)
     val title = conversation.title.ifBlank { stringResource(R.string.contact_unknown) }
+    val unreadLabel = stringResource(R.string.cd_unread)
 
     val background = when {
         selected -> MaterialTheme.colorScheme.secondaryContainer
@@ -171,14 +172,13 @@ fun ConversationListItem(
                 },
             )
             if (unread) {
+                // The dot is the only thing that says "unread", so it carries the announcement.
                 Box(
                     modifier = Modifier
                         .size(10.dp)
                         .clip(CircleShape)
                         .background(colors.unreadIndicator)
-                        .semantics {
-                            contentDescription = "" // announced through the row description
-                        },
+                        .semantics { contentDescription = unreadLabel },
                 )
             } else {
                 Box(modifier = Modifier.size(10.dp))
