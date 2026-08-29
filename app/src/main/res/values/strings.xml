@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pingu Messages</string>
+    <string name="app_name_short">Pingu</string>
+
+    <!-- Generic actions -->
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_close">Close</string>
+    <string name="action_back">Back</string>
+    <string name="action_done">Done</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_copy">Copy</string>
+    <string name="action_share">Share</string>
+    <string name="action_forward">Forward</string>
+    <string name="action_reply">Reply</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_send">Send</string>
+    <string name="action_search">Search</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_select">Select</string>
+    <string name="action_select_all">Select all</string>
+    <string name="action_more">More</string>
+    <string name="action_new_message">New message</string>
+    <string name="action_open_settings">Open settings</string>
+    <string name="action_not_now">Not now</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_remove">Remove</string>
+    <string name="action_add">Add</string>
+    <string name="action_undo">Undo</string>
+    <string name="action_call">Call</string>
+    <string name="action_view_contact">View contact</string>
+    <string name="action_add_contact">Add to contacts</string>
+
+    <!-- Conversation list -->
+    <string name="conversations_title">Messages</string>
+    <string name="conversations_archived">Archived</string>
+    <string name="conversations_spam">Spam &amp; blocked</string>
+    <string name="conversation_pinned">Pinned</string>
+    <string name="conversation_muted">Muted</string>
+    <string name="conversation_draft_prefix">Draft:</string>
+    <string name="conversation_you_prefix">You:</string>
+    <string name="conversation_attachment">Attachment</string>
+    <string name="action_pin">Pin</string>
+    <string name="action_unpin">Unpin</string>
+    <string name="action_mute">Mute</string>
+    <string name="action_unmute">Unmute</string>
+    <string name="action_archive">Archive</string>
+    <string name="action_unarchive">Unarchive</string>
+    <string name="action_mark_read">Mark as read</string>
+    <string name="action_mark_unread">Mark as unread</string>
+    <string name="action_block">Block</string>
+    <string name="action_unblock">Unblock</string>
+    <string name="action_report_spam">Report spam</string>
+    <string name="action_not_spam">Not spam</string>
+
+    <!-- Empty states -->
+    <string name="empty_conversations_title">No messages yet</string>
+    <string name="empty_conversations_body">Conversations you send or receive will show up here.</string>
+    <string name="empty_conversations_action">Start a conversation</string>
+    <string name="empty_archived_title">Nothing archived</string>
+    <string name="empty_archived_body">Archived conversations stay out of your main list until someone replies.</string>
+    <string name="empty_search_title">No messages found</string>
+    <string name="empty_search_body">Try a different name, number or word.</string>
+    <string name="empty_blocked_title">No blocked numbers</string>
+    <string name="empty_blocked_body">Numbers you block will be listed here and their messages kept out of your inbox.</string>
+    <string name="empty_scheduled_title">No scheduled messages</string>
+    <string name="empty_scheduled_body">Compose a message and hold Send to schedule it.</string>
+    <string name="empty_conversation_title">No messages in this conversation</string>
+    <string name="empty_conversation_body">Say something to get started.</string>
+    <string name="empty_media_title">No media yet</string>
+    <string name="empty_media_body">Photos, videos and files in this conversation appear here.</string>
+
+    <!-- Search -->
+    <string name="search_hint">Search messages and contacts</string>
+    <string name="search_section_conversations">Conversations</string>
+    <string name="search_section_contacts">Contacts</string>
+    <string name="search_section_messages">Messages</string>
+    <string name="search_section_attachments">Attachments</string>
+    <string name="search_more_results">Show more results</string>
+    <string name="search_prompt_title">Search your messages</string>
+    <string name="search_prompt_body">Find a conversation, a contact, a phone number or any word in a message.</string>
+
+    <!-- Composer -->
+    <string name="composer_hint">Text message</string>
+    <string name="composer_hint_mms">Text message · MMS</string>
+    <string name="composer_hint_subject">Subject</string>
+    <string name="composer_attach">Add attachment</string>
+    <string name="composer_camera">Take a photo</string>
+    <string name="composer_emoji">Insert emoji</string>
+    <string name="composer_record">Hold to record a voice message</string>
+    <string name="composer_send">Send message</string>
+    <string name="composer_schedule">Schedule message</string>
+    <string name="composer_sim_selector">Choose SIM</string>
+    <string name="composer_character_counter">%1$d/%2$d (%3$d)</string>
+    <string name="composer_replying_to">Replying to %1$s</string>
+    <string name="composer_clear_reply">Cancel reply</string>
+    <string name="composer_recording_slide_to_cancel">Slide to cancel</string>
+    <string name="composer_recording_release_to_send">Release to send</string>
+
+    <!-- Message actions -->
+    <string name="message_action_copy_text">Copy text</string>
+    <string name="message_action_save_attachment">Save attachment</string>
+    <string name="message_action_delete">Delete message</string>
+    <string name="message_action_details">Details</string>
+    <string name="message_action_react">React</string>
+    <string name="message_action_resend">Send again</string>
+    <string name="message_action_edit">Edit</string>
+    <string name="message_copied">Copied to clipboard</string>
+    <string name="message_saved_to_downloads">Saved to Downloads</string>
+
+    <!-- Status -->
+    <string name="status_sending">Sending…</string>
+    <string name="status_sent">Sent</string>
+    <string name="status_delivered">Delivered</string>
+    <string name="status_read">Read</string>
+    <string name="status_failed">Not sent</string>
+    <string name="status_failed_tap_to_retry">Not sent. Tap to try again.</string>
+    <string name="status_scheduled">Scheduled</string>
+    <string name="status_received">Received</string>
+    <string name="status_downloading">Downloading…</string>
+    <string name="status_download_failed">Download failed</string>
+    <string name="status_expired">Expired</string>
+
+    <!-- Errors -->
+    <string name="error_no_sim">No SIM card detected. Sending a text message needs mobile service.</string>
+    <string name="error_not_default_app">Pingu Messages has to be your default SMS app before it can send or receive messages.</string>
+    <string name="error_send_failed_generic">The message could not be sent.</string>
+    <string name="error_send_failed_no_service">No mobile service. The message will not send until you have signal.</string>
+    <string name="error_send_failed_radio_off">Airplane mode or the mobile radio is off.</string>
+    <string name="error_send_failed_null_pdu">The message could not be encoded for your carrier.</string>
+    <string name="error_mms_no_data">MMS needs mobile data. Turn mobile data on and try again.</string>
+    <string name="error_mms_too_large">This message is larger than your carrier allows (%1$s). Try removing an attachment.</string>
+    <string name="error_attachment_unreadable">That file could not be read.</string>
+    <string name="error_permission_generic">A permission is missing for this action.</string>
+    <string name="error_no_app_for_action">No app on this device can handle that.</string>
+    <string name="error_recording_failed">Recording failed. Check that no other app is using the microphone.</string>
+    <string name="error_location_unavailable">Your location is not available right now.</string>
+    <string name="error_generic">Something went wrong.</string>
+
+    <!-- Permissions -->
+    <string name="permission_contacts_title">Show names instead of numbers</string>
+    <string name="permission_contacts_body">Pingu Messages reads your contacts on the device to show names and photos. Nothing leaves your phone.</string>
+    <string name="permission_notifications_title">Get notified about new messages</string>
+    <string name="permission_notifications_body">Allow notifications so you can see and reply to messages as they arrive.</string>
+    <string name="permission_microphone_title">Record voice messages</string>
+    <string name="permission_microphone_body">The microphone is used only while you hold the record button.</string>
+    <string name="permission_location_title">Share your location</string>
+    <string name="permission_location_body">Your location is read once, turned into a map link, and never stored.</string>
+    <string name="permission_media_title">Show recent photos here</string>
+    <string name="permission_media_body">Allow access to show a strip of recent photos. You can also pick files without granting this.</string>
+    <string name="permission_phone_title">Show which SIM is used</string>
+    <string name="permission_phone_body">Needed on dual-SIM devices to label SIM slots and pick the right one.</string>
+    <string name="permission_denied_permanently">Permission was turned off. You can enable it in system settings.</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_welcome_title">Pingu Messages</string>
+    <string name="onboarding_welcome_body">A fast, private SMS and MMS app. No account, no cloud, no tracking — your messages stay on your phone.</string>
+    <string name="onboarding_default_title">Become the default SMS app</string>
+    <string name="onboarding_default_body">Android only lets one app receive and send text messages. Pingu Messages needs that role to work at all.</string>
+    <string name="onboarding_default_action">Set as default SMS app</string>
+    <string name="onboarding_default_done">Pingu Messages is your default SMS app</string>
+    <string name="onboarding_permissions_title">A couple of permissions</string>
+    <string name="onboarding_permissions_body">Contacts turns numbers into names. Notifications lets you know when a message arrives. Both are optional and both are asked for only once.</string>
+    <string name="onboarding_privacy_title">Your messages are yours</string>
+    <string name="onboarding_privacy_body">Pingu Messages has no servers, no analytics and no third-party trackers. Messages live in Android\'s own message store on this device.</string>
+    <string name="onboarding_get_started">Get started</string>
+
+    <!-- Default SMS app -->
+    <string name="default_app_banner_title">Not your default SMS app</string>
+    <string name="default_app_banner_body">Messages can be read but not sent or received until Pingu Messages is the default.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_section_notifications">Notifications</string>
+    <string name="settings_section_messaging">Messaging</string>
+    <string name="settings_section_privacy">Privacy</string>
+    <string name="settings_section_storage">Storage</string>
+    <string name="settings_section_about">About</string>
+
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_system">Follow system</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_dynamic_color">Dynamic colour</string>
+    <string name="settings_dynamic_color_summary">Match the colours of your wallpaper</string>
+    <string name="settings_accent">Accent colour</string>
+    <string name="settings_bubble_style">Message bubbles</string>
+    <string name="settings_bubble_tails">Bubble tails</string>
+    <string name="settings_font_scale">Message text size</string>
+    <string name="settings_pure_black">Pure black in dark mode</string>
+    <string name="settings_pure_black_summary">Saves power on OLED screens</string>
+
+    <string name="settings_notifications_system">System notification settings</string>
+    <string name="settings_notifications_system_summary">Sound, vibration and importance</string>
+    <string name="settings_notification_privacy">Lock screen privacy</string>
+    <string name="settings_notification_privacy_full">Show sender and message</string>
+    <string name="settings_notification_privacy_sender">Show sender only</string>
+    <string name="settings_notification_privacy_hidden">Hide message content</string>
+    <string name="settings_notification_privacy_none">No notification content at all</string>
+    <string name="settings_notification_vibrate">Vibrate</string>
+    <string name="settings_notification_bubbles">Conversation bubbles</string>
+    <string name="settings_notification_bubbles_summary">Float conversations over other apps</string>
+
+    <string name="settings_default_sim">Default SIM</string>
+    <string name="settings_default_sim_ask">Ask every time</string>
+    <string name="settings_delivery_reports">Request delivery reports</string>
+    <string name="settings_delivery_reports_summary">Your carrier may charge for these</string>
+    <string name="settings_auto_download_mms">Auto-download MMS</string>
+    <string name="settings_auto_download_mms_roaming">Auto-download while roaming</string>
+    <string name="settings_group_mms">Group messaging</string>
+    <string name="settings_group_mms_mms">Send one MMS to everyone (group reply)</string>
+    <string name="settings_group_mms_sms">Send an individual SMS to each recipient</string>
+    <string name="settings_scheduled">Scheduled messages</string>
+    <string name="settings_split_long_sms">Split long messages instead of sending MMS</string>
+    <string name="settings_send_delay">Undo send window</string>
+    <string name="settings_read_receipts_mms">Send MMS read reports</string>
+    <string name="settings_reaction_fallback">Send reactions as text</string>
+    <string name="settings_reaction_fallback_summary">SMS has no reactions. When on, a reaction is also sent as a short text so the other person sees it.</string>
+    <string name="settings_quote_replies">Include a quote when replying</string>
+
+    <string name="settings_blocked_numbers">Blocked numbers</string>
+    <string name="settings_spam_filter">Spam filtering</string>
+    <string name="settings_app_lock">App lock</string>
+    <string name="settings_app_lock_summary">Require your screen lock or fingerprint to open Pingu Messages</string>
+
+    <string name="settings_storage_usage">Storage used</string>
+    <string name="settings_media_auto_delete">Delete old media automatically</string>
+    <string name="settings_clear_cache">Clear cached media</string>
+    <string name="settings_export">Export a backup</string>
+    <string name="settings_export_summary">Write a file you keep yourself. There is no cloud.</string>
+    <string name="settings_import">Restore from a backup file</string>
+
+    <string name="settings_version">Version</string>
+    <string name="settings_licenses">Open-source licences</string>
+    <string name="settings_privacy_policy">Privacy</string>
+    <string name="settings_project">Project on GitHub</string>
+    <string name="settings_limitations">Features Android does not allow</string>
+
+    <!-- Scheduling -->
+    <string name="schedule_title">Schedule message</string>
+    <string name="schedule_pick_date">Date</string>
+    <string name="schedule_pick_time">Time</string>
+    <string name="schedule_confirm">Schedule</string>
+    <string name="schedule_send_now">Send now</string>
+    <string name="schedule_cancel_message">Cancel scheduled message</string>
+    <string name="schedule_exact_alarm_title">Allow exact timing</string>
+    <string name="schedule_exact_alarm_body">Android needs permission to run alarms at an exact time. Without it, a scheduled message may go out a few minutes late.</string>
+    <string name="scheduled_messages_title">Scheduled</string>
+
+    <!-- Attachments -->
+    <string name="attachment_camera">Camera</string>
+    <string name="attachment_video">Video</string>
+    <string name="attachment_gallery">Gallery</string>
+    <string name="attachment_files">Files</string>
+    <string name="attachment_audio">Audio</string>
+    <string name="attachment_contact">Contact</string>
+    <string name="attachment_location">Location</string>
+    <string name="attachment_gif">GIF</string>
+    <string name="attachment_remove">Remove attachment</string>
+    <string name="attachment_size">%1$s · %2$s</string>
+
+    <!-- Media viewer -->
+    <string name="media_viewer_title">%1$d of %2$d</string>
+    <string name="media_save">Save</string>
+    <string name="media_play">Play</string>
+    <string name="media_pause">Pause</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_messages">Messages</string>
+    <string name="notification_channel_messages_description">New incoming messages</string>
+    <string name="notification_channel_failures">Sending problems</string>
+    <string name="notification_channel_failures_description">Messages that could not be sent</string>
+    <string name="notification_channel_background">Background activity</string>
+    <string name="notification_channel_background_description">Syncing and scheduled sending</string>
+    <string name="notification_reply_label">Reply</string>
+    <string name="notification_new_message">New message</string>
+    <string name="notification_hidden_content">New message</string>
+    <string name="notification_group_summary">New messages</string>
+    <string name="notification_send_failed_title">Message not sent</string>
+    <string name="notification_send_failed_body">Tap to open the conversation and try again.</string>
+    <string name="notification_reply_sent">Sent</string>
+    <string name="notification_reply_failed">Reply not sent</string>
+
+    <!-- Widget / shortcuts -->
+    <string name="widget_description">Recent conversations, unread count and a shortcut to write a new message.</string>
+    <string name="shortcut_compose_short">New</string>
+    <string name="shortcut_compose_long">New message</string>
+    <string name="shortcut_search_short">Search</string>
+    <string name="shortcut_search_long">Search messages</string>
+
+    <!-- Contacts / recipients -->
+    <string name="recipients_hint">To</string>
+    <string name="recipients_add">Add recipient</string>
+    <string name="recipients_remove">Remove recipient</string>
+    <string name="contact_unknown">Unknown</string>
+    <string name="contact_me">You</string>
+    <string name="group_conversation_participants">%1$d people</string>
+
+    <!-- Blocking -->
+    <string name="block_dialog_title">Block %1$s?</string>
+    <string name="block_dialog_body">You will stop getting notifications from this number and its messages move to Spam &amp; blocked.</string>
+    <string name="block_dialog_report">Also report as spam</string>
+    <string name="blocked_numbers_title">Blocked &amp; spam</string>
+    <string name="blocked_add_number">Block a number</string>
+    <string name="blocked_tab_numbers">Blocked</string>
+    <string name="blocked_tab_spam">Spam</string>
+
+    <!-- Details -->
+    <string name="details_title">Message details</string>
+    <string name="details_type">Type</string>
+    <string name="details_from">From</string>
+    <string name="details_to">To</string>
+    <string name="details_sent">Sent</string>
+    <string name="details_received">Received</string>
+    <string name="details_delivered">Delivered</string>
+    <string name="details_sim">SIM</string>
+    <string name="details_size">Size</string>
+    <string name="details_parts">Parts</string>
+
+    <!-- Content descriptions -->
+    <string name="cd_avatar">Contact photo</string>
+    <string name="cd_unread">Unread</string>
+    <string name="cd_attachment_image">Image attachment</string>
+    <string name="cd_attachment_video">Video attachment</string>
+    <string name="cd_attachment_audio">Audio attachment</string>
+    <string name="cd_attachment_file">File attachment</string>
+    <string name="cd_more_options">More options</string>
+    <string name="cd_selected">Selected</string>
+
+    <!-- Date separators -->
+    <string name="date_today">Today</string>
+    <string name="date_yesterday">Yesterday</string>
+
+
+    <!-- Conversation screen -->
+    <string name="action_download_message">Download</string>
+    <string name="action_download_again">Download again</string>
+    <string name="conversation_menu_search">Search in conversation</string>
+    <string name="conversation_menu_media">Photos &amp; files</string>
+    <string name="conversation_menu_details">Conversation details</string>
+    <string name="conversation_menu_rename">Rename conversation</string>
+    <string name="conversation_menu_notifications">Notifications</string>
+    <string name="conversation_scroll_to_bottom">Scroll to the latest message</string>
+    <string name="conversation_new_messages">New</string>
+    <string name="conversation_load_older">Load older messages</string>
+    <string name="conversation_typing_placeholder">Message</string>
+    <string name="conversation_blocked_banner">This number is blocked. Messages from it stay out of your inbox.</string>
+    <string name="conversation_spam_banner">This conversation was moved to spam.</string>
+    <string name="conversation_unblock_action">Unblock</string>
+    <string name="conversation_sim_label">SIM %1$s</string>
+    <string name="conversation_scheduled_banner">%1$d scheduled message(s) in this conversation</string>
+
+    <!-- New message -->
+    <string name="new_message_title">New message</string>
+    <string name="new_message_to">To</string>
+    <string name="new_message_add_recipient">Add %1$s</string>
+    <string name="new_message_suggestions">Suggestions</string>
+    <string name="new_message_no_contacts">No matching contacts. You can still type a number.</string>
+
+    <!-- Selection -->
+    <string name="selection_exit">Clear selection</string>
+
+    <!-- Media viewer -->
+    <string name="media_viewer_share">Share</string>
+    <string name="media_viewer_delete">Delete from this device</string>
+    <string name="media_viewer_saved">Saved to Downloads</string>
+    <string name="media_viewer_save_failed">The file could not be saved</string>
+
+    <!-- Reactions -->
+    <string name="reaction_added">Reaction added</string>
+    <string name="reaction_sent_as_text">Reaction sent as a text message</string>
+    <string name="reaction_local_only">Reactions stay on this phone. SMS cannot carry them.</string>
+
+    <!-- Scheduled -->
+    <string name="schedule_preset_hour">In 1 hour</string>
+    <string name="schedule_preset_evening">This evening</string>
+    <string name="schedule_preset_tomorrow">Tomorrow morning</string>
+    <string name="schedule_preset_monday">Monday morning</string>
+    <string name="schedule_in_the_past">Choose a time in the future</string>
+    <string name="schedule_scheduled_for">Sends %1$s</string>
+    <string name="schedule_cancelled">Scheduled message cancelled</string>
+    <string name="schedule_inexact_warning">Without exact alarms this may send a few minutes late.</string>
+
+    <!-- Settings extras -->
+    <string name="settings_bubble_rounded">Rounded</string>
+    <string name="settings_bubble_tailed">With tails</string>
+    <string name="settings_swipe_right">Swipe right</string>
+    <string name="settings_swipe_left">Swipe left</string>
+    <string name="settings_swipe_none">Nothing</string>
+    <string name="settings_folders">Folders</string>
+    <string name="settings_reset">Reset to defaults</string>
+    <string name="settings_export_running">Writing backup…</string>
+    <string name="settings_export_done">Backup saved (%1$s)</string>
+    <string name="settings_import_done">Restored %1$d conversations and %2$d messages</string>
+    <string name="settings_import_failed">That file could not be restored</string>
+    <string name="settings_include_messages">Include message text</string>
+    <string name="settings_storage_cache">App cache</string>
+    <string name="settings_storage_attachments">Message attachments</string>
+    <string name="settings_cache_cleared">Cache cleared</string>
+    <string name="settings_auto_delete_never">Never</string>
+    <string name="settings_auto_delete_days">After %1$d days</string>
+    <string name="settings_app_lock_unavailable">This device has no screen lock set up</string>
+
+    <!-- About -->
+    <string name="about_privacy_body">Pingu Messages has no servers. Your messages stay in Android's own message store on this phone. Nothing is uploaded, there is no analytics, and there are no third-party trackers in the app.</string>
+    <string name="limitation_rcs_title">RCS chat features</string>
+    <string name="limitation_rcs_body">RCS on Android runs through Google\'s Jibe infrastructure, which is not open to other apps. Pingu Messages therefore does not claim to support RCS: it implements SMS and MMS properly instead, and its transport layer is built so another protocol could be added if one ever becomes available to third-party apps.</string>
+    <string name="limitation_reactions_title">Reactions</string>
+    <string name="limitation_reactions_body">SMS and MMS have no reaction field. Reactions you add are stored on this phone. If you turn on \"Send reactions as text\", a short message is also sent so the other person sees it — that is exactly what iPhone and Google Messages do when they fall back to SMS. Reactions other people send that way are recognised and shown on the right message rather than as a confusing extra line.</string>
+    <string name="limitation_edit_title">Editing a sent message</string>
+    <string name="limitation_edit_body">Once a text message reaches the network it cannot be changed or recalled — there is no mechanism in SMS to do it. You can edit a scheduled message before it goes out, and edit and resend one that failed.</string>
+    <string name="limitation_delete_title">Deleting for everyone</string>
+    <string name="limitation_delete_body">Deleting a message removes it from this phone. Nothing can remove it from the recipient\'s phone; any app claiming otherwise for SMS is not telling the truth.</string>
+    <string name="limitation_read_title">Read receipts</string>
+    <string name="limitation_read_body">SMS has no read receipt at all, so this app never shows one. Delivery reports are real and can be turned on in Settings, though some carriers charge for them. MMS does support read reports, and those are shown when the other phone sends one.</string>
+    <string name="limitation_typing_title">Typing indicators</string>
+    <string name="limitation_typing_body">There is no typing indicator in SMS or MMS. Nothing in this app pretends to show one.</string>
+    <string name="limitation_encryption_title">Encryption</string>
+    <string name="limitation_encryption_body">SMS and MMS are not end-to-end encrypted; they travel through your carrier in the clear. No app can change that. On this phone your messages live in Android\'s own message store, protected by the device encryption your lock screen enables.</string>
+
+    <string name="about_limitations_title">What Android does not allow</string>
+    <string name="about_licenses_title">Open-source licences</string>
+
+    <!-- Blocked -->
+    <string name="blocked_system_synced">Also blocked for calls</string>
+    <string name="blocked_added">%1$s blocked</string>
+    <string name="blocked_removed">%1$s unblocked</string>
+    <string name="blocked_keyword_hint">Word or phrase</string>
+    <string name="blocked_keywords_title">Spam keywords</string>
+    <string name="blocked_keywords_body">Messages from people who are not in your contacts are moved to spam when they contain one of these.</string>
+
+    <!-- App lock -->
+    <string name="app_lock_title">Pingu Messages is locked</string>
+    <string name="app_lock_subtitle">Unlock to read your messages</string>
+    <string name="app_lock_unlock">Unlock</string>
+
+    <!-- Attachments -->
+    <string name="attachment_recent">Recent</string>
+    <string name="attachment_permission_needed">Allow access to show recent photos</string>
+    <string name="attachment_count">%1$d attached</string>
+
+    <string name="delete_conversation_body">The messages are removed from this phone. This cannot be undone, and it does not delete them from the other person\'s phone.</string>
+    <string name="delete_message_body">The message is removed from this phone only.</string>
+
+    <plurals name="delete_conversation_title">
+        <item quantity="one">Delete this conversation?</item>
+        <item quantity="other">Delete %1$d conversations?</item>
+    </plurals>
+    <plurals name="delete_message_title">
+        <item quantity="one">Delete this message?</item>
+        <item quantity="other">Delete %1$d messages?</item>
+    </plurals>
+
+    <plurals name="selected_count">
+        <item quantity="one">%1$d selected</item>
+        <item quantity="other">%1$d selected</item>
+    </plurals>
+    <plurals name="unread_count">
+        <item quantity="one">%1$d unread message</item>
+        <item quantity="other">%1$d unread messages</item>
+    </plurals>
+    <plurals name="conversations_deleted">
+        <item quantity="one">Conversation deleted</item>
+        <item quantity="other">%1$d conversations deleted</item>
+    </plurals>
+    <plurals name="messages_deleted">
+        <item quantity="one">Message deleted</item>
+        <item quantity="other">%1$d messages deleted</item>
+    </plurals>
+    <plurals name="new_messages">
+        <item quantity="one">%1$d new message</item>
+        <item quantity="other">%1$d new messages</item>
+    </plurals>
+</resources>

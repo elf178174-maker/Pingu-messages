@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      The Compose hierarchy owns all colours; this platform theme only has to provide a sane
+      window background (so the pre-Compose frame does not flash white in dark mode) and edge-to-
+      edge system bars.
+    -->
+    <style name="Theme.Pingu" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowActivityTransitions">true</item>
+    </style>
+
+    <!-- Splash screen shown while the process starts; hands over to Theme.Pingu. -->
+    <style name="Theme.Pingu.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.Pingu</item>
+    </style>
+</resources>

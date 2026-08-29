@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Static launcher shortcuts (long-press the app icon). Conversation shortcuts are published
+  dynamically from ConversationShortcutManager so they can carry contact photos and act as
+  sharing targets and notification-bubble anchors.
+-->
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="compose"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_compose"
+        android:shortcutShortLabel="@string/shortcut_compose_short"
+        android:shortcutLongLabel="@string/shortcut_compose_long">
+        <intent
+            android:action="app.pingu.messages.action.COMPOSE"
+            android:targetPackage="app.pingu.messages"
+            android:targetClass="app.pingu.messages.ui.MainActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="search"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_search"
+        android:shortcutShortLabel="@string/shortcut_search_short"
+        android:shortcutLongLabel="@string/shortcut_search_long">
+        <intent
+            android:action="app.pingu.messages.action.SEARCH"
+            android:targetPackage="app.pingu.messages"
+            android:targetClass="app.pingu.messages.ui.MainActivity" />
+    </shortcut>
+</shortcuts>

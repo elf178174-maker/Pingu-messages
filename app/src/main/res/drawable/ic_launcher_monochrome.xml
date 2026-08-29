@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Themed-icon layer (Android 13+): a single-colour silhouette of the same mark. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108"
+    android:tint="#FFFFFF">
+
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M36,28 H54 A12,12 0 0 1 66,40 V46 A12,12 0 0 1 54,58 H36 A12,12 0 0 1 24,46 V40 A12,12 0 0 1 36,28 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M31,50 L25,70 L45,56 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M67,42 H75 A11,11 0 0 1 86,53 V59 A11,11 0 0 1 75,70 H67 A11,11 0 0 1 56,59 V53 A11,11 0 0 1 67,42 Z M67,46 A7,7 0 0 0 60,53 V59 A7,7 0 0 0 67,66 H75 A7,7 0 0 0 82,59 V53 A7,7 0 0 0 75,46 Z" />
+</vector>

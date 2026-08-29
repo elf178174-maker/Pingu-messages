@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Pingu Messages mark: two overlapping speech bubbles separated by a crisp 4dp gap. Purely
+  geometric, no gradients, and legible down to 24dp.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Rear bubble (received). -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M36,28 H54 A12,12 0 0 1 66,40 V46 A12,12 0 0 1 54,58 H36 A12,12 0 0 1 24,46 V40 A12,12 0 0 1 36,28 Z" />
+    <!-- Tail of the rear bubble. -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M31,50 L25,70 L45,56 Z" />
+
+    <!-- Knockout that keeps the two bubbles visually separate. -->
+    <path
+        android:fillColor="#0D6E70"
+        android:pathData="M67,42 H75 A11,11 0 0 1 86,53 V59 A11,11 0 0 1 75,70 H67 A11,11 0 0 1 56,59 V53 A11,11 0 0 1 67,42 Z" />
+
+    <!-- Front bubble (sent). -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M67,46 H75 A7,7 0 0 1 82,53 V59 A7,7 0 0 1 75,66 H67 A7,7 0 0 1 60,59 V53 A7,7 0 0 1 67,46 Z" />
+</vector>

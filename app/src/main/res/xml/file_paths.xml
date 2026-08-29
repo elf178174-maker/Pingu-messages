@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Every file the app hands to another process is served from one of these roots through the
+  FileProvider, so recipients receive a temporary, scoped content:// grant instead of a raw path.
+-->
+<paths>
+    <!-- Attachments copied out of the MMS provider for viewing/sharing. -->
+    <cache-path name="attachments" path="attachments/" />
+    <!-- Camera captures waiting to be attached. -->
+    <cache-path name="captures" path="captures/" />
+    <!-- Voice recordings before they are attached to a message. -->
+    <cache-path name="voice" path="voice/" />
+    <!-- MMS PDUs handed to the platform's SmsManager for sending. -->
+    <cache-path name="mms" path="mms/" />
+    <!-- Backup archives the user exports. -->
+    <files-path name="exports" path="exports/" />
+</paths>
